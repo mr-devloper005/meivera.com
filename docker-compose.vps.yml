@@ -1,6 +1,6 @@
 services:
-  linkriseup:
-    container_name: linkriseup_app
+  meivera:
+    container_name: meivera_app
     build:
       context: .
       dockerfile: Dockerfile
