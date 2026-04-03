@@ -19,7 +19,7 @@ services:
       - .env
     restart: unless-stopped
     ports:
-      - "127.0.0.1:3010:3000"
+      - "127.0.0.1:3011:3000"
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3000/"]
       interval: 30s
