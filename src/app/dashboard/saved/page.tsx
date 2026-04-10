@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { PageShell } from '@/components/shared/page-shell'
 import { BookmarkCard } from '@/components/sbm/bookmark-card'
 import { ArticleCard, ListingCard, ClassifiedAdCard } from '@/components/shared/cards'
-import { mockBookmarks, mockArticles, mockBookmarkCollections, mockListings, mockClassifiedAds } from '@/data/mock-data'
+import { mockBookmarks, mockArticles, mockListings, mockClassifiedAds } from '@/data/mock-data'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -24,7 +24,7 @@ import {
   SheetDescription,
 } from '@/components/ui/sheet'
 import { useToast } from '@/components/ui/use-toast'
-import type { Article, Bookmark as BookmarkType, Listing, ClassifiedAd } from '@/types'
+import type { Article, Bookmark as BookmarkType, Listing, ClassifiedAd, BookmarkCollection } from '@/types'
 import { loadFromStorage, saveToStorage, storageKeys } from '@/lib/local-storage'
 
 export default function DashboardSavedPage() {
@@ -49,6 +49,7 @@ export default function DashboardSavedPage() {
   const [storedArticles, setStoredArticles] = useState<Article[]>([])
   const [storedListings, setStoredListings] = useState<Listing[]>([])
   const [storedAds, setStoredAds] = useState<ClassifiedAd[]>([])
+  const [storedCollections, setStoredCollections] = useState<BookmarkCollection[]>([])
 
   useEffect(() => {
     setSavedIds(loadFromStorage<string[]>(storageKeys.bookmarkSaves, defaultSavedBookmarkIds))
@@ -59,6 +60,7 @@ export default function DashboardSavedPage() {
     setStoredArticles(loadFromStorage<Article[]>(storageKeys.articles, []))
     setStoredListings(loadFromStorage<Listing[]>(storageKeys.listings, []))
     setStoredAds(loadFromStorage<ClassifiedAd[]>(storageKeys.ads, []))
+    setStoredCollections(loadFromStorage<BookmarkCollection[]>(storageKeys.bookmarkCollections, []))
   }, [defaultSavedBookmarkIds])
   const allBookmarks = useMemo(() => {
     const map = new Map<string, BookmarkType>()
@@ -418,18 +420,22 @@ export default function DashboardSavedPage() {
             <DialogTitle>Move to collection</DialogTitle>
           </DialogHeader>
           <div className="space-y-2">
-            {mockBookmarkCollections.map((collection) => (
-              <button
-                key={collection.id}
-                onClick={() => setSelectedCollection(collection.id)}
-                className={`w-full rounded-lg border border-border px-3 py-2 text-left text-sm transition-colors ${
-                  selectedCollection === collection.id ? 'bg-secondary' : 'bg-card'
-                }`}
-              >
-                <div className="font-medium text-foreground">{collection.name}</div>
-                <div className="text-xs text-muted-foreground">{collection.description}</div>
-              </button>
-            ))}
+            {storedCollections.length ? (
+              storedCollections.map((collection) => (
+                <button
+                  key={collection.id}
+                  onClick={() => setSelectedCollection(collection.id)}
+                  className={`w-full rounded-lg border border-border px-3 py-2 text-left text-sm transition-colors ${
+                    selectedCollection === collection.id ? 'bg-secondary' : 'bg-card'
+                  }`}
+                >
+                  <div className="font-medium text-foreground">{collection.name}</div>
+                  <div className="text-xs text-muted-foreground">{collection.description}</div>
+                </button>
+              ))
+            ) : (
+              <p className="text-sm text-muted-foreground">No collections available yet. Create one first.</p>
+            )}
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setMoveOpen(false)}>Cancel</Button>

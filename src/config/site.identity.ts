@@ -1,10 +1,10 @@
 export const siteIdentity = {
   code: process.env.NEXT_PUBLIC_SITE_CODE || 'meivera-production',
   name: process.env.NEXT_PUBLIC_SITE_NAME || 'Meivera',
-  tagline: process.env.NEXT_PUBLIC_SITE_TAGLINE || 'General posting site',
+  tagline: process.env.NEXT_PUBLIC_SITE_TAGLINE || 'Curated bookmarking and profile discovery',
   description:
     process.env.NEXT_PUBLIC_SITE_DESCRIPTION ||
-    'A general content platform for articles, images, listings, profiles, and discoverable resources across different topics.',
+    'A social bookmarking platform focused on saved resources, curated collections, and profile-led discovery.',
   domain: process.env.NEXT_PUBLIC_SITE_DOMAIN || 'meivera.com',
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://meivera.com',
   ogImage: process.env.NEXT_PUBLIC_SITE_OG_IMAGE || '/og-default.png',

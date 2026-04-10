@@ -1,13 +1,13 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Search, Menu, X, User, FileText, Building2, LayoutGrid, Tag, Image as ImageIcon } from 'lucide-react'
+import { Search, Menu, X, User, Home, Compass, FolderOpen } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/lib/auth-context'
-import { SITE_CONFIG, type TaskKey } from '@/lib/site-config'
+import { SITE_CONFIG } from '@/lib/site-config'
 import { cn } from '@/lib/utils'
 import { siteContent } from '@/config/site.content'
 
@@ -16,84 +16,78 @@ const NavbarAuthControls = dynamic(() => import('@/components/shared/navbar-auth
   loading: () => null,
 })
 
-const taskIcons: Record<TaskKey, any> = {
-  article: FileText,
-  listing: Building2,
-  sbm: LayoutGrid,
-  classified: Tag,
-  image: ImageIcon,
-  profile: User,
-  social: LayoutGrid,
-  pdf: FileText,
-  org: Building2,
-  comment: FileText,
-}
+const primaryLinks = [
+  { name: 'Home', href: '/', icon: Home, match: (p: string) => p === '/' },
+  { name: 'Explore', href: '/sbm', icon: Compass, match: (p: string) => p.startsWith('/sbm') },
+  {
+    name: 'Collections',
+    href: '/sbm/collections',
+    icon: FolderOpen,
+    match: (p: string) => p.startsWith('/sbm/collections'),
+  },
+  { name: 'Profiles', href: '/profile', icon: User, match: (p: string) => p.startsWith('/profile') },
+]
 
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const pathname = usePathname()
   const { isAuthenticated } = useAuth()
 
-  const navigation = useMemo(() => SITE_CONFIG.tasks.filter((task) => task.enabled && task.key !== 'profile'), [])
-  const primaryNavigation = navigation.slice(0, 5)
-
-  const mobileNavigation = navigation.map((task) => ({
-    name: task.label,
-    href: task.route,
-    icon: taskIcons[task.key] || LayoutGrid,
-  }))
-
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-[rgba(110,26,55,0.12)] bg-[rgba(255,250,244,0.86)] backdrop-blur-xl">
-      <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 xl:gap-5 lg:px-8">
-        <div className="flex min-w-0 flex-1 items-center gap-4 lg:gap-7">
-          <Link href="/" className="flex shrink-0 items-center gap-3 whitespace-nowrap pr-2">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-[rgba(110,26,55,0.14)] bg-white p-1.5 shadow-sm">
+    <header className="sticky top-0 z-50 w-full border-b border-[var(--border-app)] bg-[rgba(243,244,244,0.94)] backdrop-blur-xl">
+      <nav className="mx-auto flex h-[4.75rem] max-w-[1400px] items-center justify-between gap-3 px-4 sm:px-6 lg:gap-5 lg:px-8">
+        <div className="flex min-w-0 flex-1 items-center gap-3 lg:gap-5">
+          <Link href="/" className="flex shrink-0 items-center gap-3 whitespace-nowrap pr-1">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-[rgba(133,57,83,0.22)] bg-white p-1 shadow-sm">
               <img
                 src="/favicon.png?v=20260401"
                 alt={`${SITE_CONFIG.name} logo`}
-                width="48"
-                height="48"
+                width="44"
+                height="44"
                 className="h-full w-full object-contain"
               />
             </div>
             <div className="min-w-0 hidden sm:block">
-              <span className="block truncate text-xl font-semibold text-[#35131f]">{SITE_CONFIG.name}</span>
-              <span className="hidden text-[10px] uppercase tracking-[0.28em] text-[#8a6972] sm:block">
-                {siteContent.navbar.tagline}
+              <span className="block truncate text-xl font-black tracking-tight text-[var(--sbm-blue)]">
+                {SITE_CONFIG.name}
+              </span>
+              <span className="hidden text-[10px] font-semibold uppercase tracking-[0.2em] text-[var(--sbm-blue-dim)]/80 sm:block">
+                {siteContent.navbar.locationLabel}
               </span>
             </div>
           </Link>
 
-          <div className="hidden min-w-0 flex-1 items-center gap-1 overflow-hidden xl:flex">
-            {primaryNavigation.map((task) => {
-              const Icon = taskIcons[task.key] || LayoutGrid
-              const isActive = pathname.startsWith(task.route)
+          <div className="hidden min-w-0 flex-1 items-center lg:flex">
+            <div className="flex items-center gap-1 rounded-2xl border border-[var(--border-app)] bg-white/90 p-1 shadow-[0_4px_16px_rgba(44,44,44,0.06)]">
+            {primaryLinks.map((item) => {
+              const Icon = item.icon
+              const isActive = item.match(pathname)
               return (
                 <Link
-                  key={task.key}
-                  href={task.route}
+                  key={item.href}
+                  href={item.href}
                   className={cn(
-                    'flex items-center gap-2 rounded-full px-3 py-2 text-sm font-semibold transition-colors whitespace-nowrap',
+                    'flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold transition-colors',
                     isActive
-                      ? 'bg-[rgba(110,26,55,0.1)] text-[#6e1a37]'
-                      : 'text-[#685058] hover:bg-[rgba(110,26,55,0.05)] hover:text-[#8f1f3f]'
+                      ? 'bg-[var(--sbm-blue)] text-white shadow-sm'
+                      : 'text-[var(--text-body)] hover:bg-[rgba(97,45,83,0.1)] hover:text-[var(--text-heading)]'
                   )}
                 >
-                  <Icon className="h-4 w-4" />
-                  <span>{task.label}</span>
+                  <Icon className="h-4 w-4 shrink-0 opacity-90" />
+                  <span className="whitespace-nowrap">{item.name}</span>
                 </Link>
               )
             })}
+            </div>
           </div>
         </div>
 
-        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+        <div className="flex shrink-0 items-center gap-2 sm:gap-2.5">
           <Button
             variant="ghost"
             size="icon"
             asChild
-            className="hidden rounded-full text-[#5f4750] hover:bg-[rgba(110,26,55,0.06)] hover:text-[#8f1f3f] md:flex"
+            className="hidden rounded-xl border border-[var(--border-app)] bg-white text-[var(--text-body)] hover:bg-[rgba(97,45,83,0.08)] hover:text-[var(--sbm-blue-dim)] md:flex"
           >
             <Link href="/search">
               <Search className="h-5 w-5" />
@@ -105,11 +99,15 @@ export function Navbar() {
             <NavbarAuthControls />
           ) : (
             <div className="hidden items-center gap-2 md:flex">
-              <Button variant="ghost" size="sm" asChild className="rounded-full px-4 text-[#5f4750] hover:bg-[rgba(110,26,55,0.06)] hover:text-[#8f1f3f]">
+              <Button variant="ghost" size="sm" asChild className="rounded-xl border border-transparent px-4 font-semibold text-[var(--sbm-blue)] hover:border-[var(--border-app)] hover:bg-white hover:text-[var(--sbm-blue-dim)]">
                 <Link href="/login">Sign In</Link>
               </Button>
-              <Button size="sm" asChild className="rounded-full bg-[#72BAA9] px-5 text-[#1b2422] hover:bg-[#60aa99]">
-                <Link href="/register">Get Started</Link>
+              <Button
+                size="sm"
+                asChild
+                className="rounded-xl border-0 bg-[var(--sbm-blue-dim)] px-5 font-semibold text-white shadow-sm hover:bg-[var(--sbm-blue)]"
+              >
+                <Link href="/register">Sign Up</Link>
               </Button>
             </div>
           )}
@@ -117,7 +115,7 @@ export function Navbar() {
           <Button
             variant="ghost"
             size="icon"
-            className="rounded-full text-[#5f4750] hover:bg-[rgba(110,26,55,0.06)] hover:text-[#8f1f3f] lg:hidden"
+            className="rounded-xl border border-[var(--border-app)] bg-white text-[var(--text-body)] hover:bg-[rgba(97,45,83,0.08)] lg:hidden"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -127,44 +125,43 @@ export function Navbar() {
       </nav>
 
       {isMobileMenuOpen && (
-        <div className="border-t border-[rgba(110,26,55,0.12)] bg-[rgba(255,250,244,0.98)] lg:hidden">
-          <div className="space-y-2 px-4 py-4">
+        <div className="max-h-[min(80vh,calc(100dvh-4.75rem))] overflow-y-auto border-t border-[var(--border-app)] bg-white lg:hidden">
+          <div className="space-y-1 px-3 py-4">
             <Link
               href="/search"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="mb-3 flex items-center gap-3 rounded-2xl border border-[rgba(110,26,55,0.08)] bg-white px-4 py-3 text-sm font-semibold text-[#685058]"
+              className="mb-2 flex items-center gap-3 rounded-xl border border-[var(--border-app)] bg-[var(--surface-muted)] px-4 py-3 text-sm font-semibold text-[var(--text-heading)] shadow-sm"
             >
-              <Search className="h-4 w-4" />
-              Search the site
+              <Search className="h-4 w-4 text-[var(--sbm-blue)]" />
+              Search
             </Link>
 
-            {mobileNavigation.map((item) => {
-              const isActive = pathname.startsWith(item.href)
+            {primaryLinks.map((item) => {
+              const Icon = item.icon
+              const isActive = item.match(pathname)
               return (
                 <Link
-                  key={item.name}
+                  key={item.href}
                   href={item.href}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={cn(
-                    'flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-semibold transition-colors',
-                    isActive
-                      ? 'bg-[rgba(110,26,55,0.08)] text-[#6e1a37]'
-                      : 'text-[#685058] hover:bg-[rgba(110,26,55,0.05)] hover:text-[#8f1f3f]'
+                    'flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition-colors',
+                    isActive ? 'bg-[var(--sbm-blue)] text-white' : 'text-[var(--text-body)] hover:bg-[var(--surface-muted)]'
                   )}
                 >
-                  <item.icon className="h-5 w-5" />
+                  <Icon className="h-5 w-5" />
                   {item.name}
                 </Link>
               )
             })}
 
             {!isAuthenticated ? (
-              <div className="grid gap-2 pt-3 sm:grid-cols-2">
-                <Button variant="outline" asChild className="rounded-full border-[rgba(110,26,55,0.12)] bg-white">
+              <div className="grid gap-2 pt-4 sm:grid-cols-2">
+                <Button variant="outline" asChild className="rounded-xl border-[var(--border-app)] bg-white font-semibold text-[var(--sbm-blue)]">
                   <Link href="/login">Sign In</Link>
                 </Button>
-                <Button asChild className="rounded-full bg-[#72BAA9] text-[#1b2422] hover:bg-[#60aa99]">
-                  <Link href="/register">Get Started</Link>
+                <Button asChild className="rounded-xl bg-[var(--sbm-blue-dim)] font-semibold text-white hover:bg-[var(--sbm-blue)]">
+                  <Link href="/register">Sign Up</Link>
                 </Button>
               </div>
             ) : null}

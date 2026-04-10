@@ -90,36 +90,41 @@ export function TaskPostCard({
         ? "(max-width: 640px) 82vw, (max-width: 1024px) 34vw, 320px"
         : "(max-width: 640px) 85vw, (max-width: 1024px) 42vw, 340px";
 
+  const contentLogo =
+    typeof (content as Record<string, unknown>).logo === "string"
+      ? ((content as Record<string, unknown>).logo as string)
+      : null;
+
   if (isBookmarkVariant) {
     return (
       <Link
         href={href}
-        className="group flex h-full flex-row items-start gap-4 overflow-hidden rounded-[1.75rem] border border-[rgba(110,26,55,0.12)] bg-[linear-gradient(180deg,rgba(255,252,247,0.98),rgba(255,247,239,0.92))] p-5 shadow-[0_18px_48px_rgba(85,35,42,0.08)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(85,35,42,0.12)]"
+        className="group sbm-card-surface flex h-full flex-row items-start gap-4 overflow-hidden rounded-xl p-5 transition duration-300 hover:-translate-y-0.5"
       >
-        <div className="mt-1 rounded-full bg-[rgba(110,26,55,0.08)] p-2.5 text-[#6e1a37] transition group-hover:bg-[#6e1a37] group-hover:text-white">
+        <div className="mt-0.5 rounded-xl bg-[rgba(133,57,83,0.14)] p-2.5 text-[var(--sbm-blue-dim)] transition group-hover:bg-[var(--sbm-blue)] group-hover:text-white">
           <ExternalLink className="h-4 w-4" />
         </div>
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center gap-1 rounded-full bg-[rgba(110,26,55,0.08)] px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#6e1a37]">
+            <span className="inline-flex items-center gap-1 rounded-md bg-[rgba(97,45,83,0.14)] px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--sbm-green-dim)]">
               <Tag className="h-3.5 w-3.5" />
               {category}
             </span>
             {content.location ? (
-              <span className="inline-flex items-center gap-1 text-xs text-[#7b5f66]">
+              <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
                 <MapPin className="h-3.5 w-3.5" />
                 {content.location}
               </span>
             ) : null}
           </div>
-          <h3 className="mt-3 line-clamp-2 text-lg font-semibold leading-snug text-[#32111d] group-hover:text-[#8f1f3f]">
+          <h3 className="mt-3 line-clamp-2 text-lg font-semibold leading-snug text-[var(--text-heading)] group-hover:text-[var(--sbm-blue-dim)]">
             {post.title}
           </h3>
-          <p className="mt-2 line-clamp-3 text-sm leading-7 text-[#71565d]">
+          <p className="mt-2 line-clamp-3 text-sm leading-7 text-[var(--text-body)]">
             {getExcerpt(content.description || post.summary, compact ? 120 : 180) || "Explore this bookmark."}
           </p>
           {content.email ? (
-            <div className="mt-3 inline-flex items-center gap-1 text-xs text-[#7b5f66]">
+            <div className="mt-3 inline-flex items-center gap-1 text-xs text-muted-foreground">
               <Mail className="h-3.5 w-3.5" />
               {content.email}
             </div>
@@ -132,47 +137,77 @@ export function TaskPostCard({
   return (
     <Link
       href={href}
-      className="group flex h-full flex-col overflow-hidden rounded-[1.9rem] border border-[rgba(110,26,55,0.12)] bg-[linear-gradient(180deg,rgba(255,252,247,0.98),rgba(255,247,239,0.92))] shadow-[0_20px_60px_rgba(85,35,42,0.08)] transition duration-300 hover:-translate-y-1 hover:border-[rgba(110,26,55,0.18)] hover:shadow-[0_24px_70px_rgba(85,35,42,0.14)]"
+      className="group sbm-card-surface flex h-full flex-col overflow-hidden rounded-xl transition duration-300 hover:-translate-y-0.5"
     >
-      <div className={`relative ${imageAspect} overflow-hidden bg-[#ede2dc]`}>
+      <div className={`relative ${imageAspect} overflow-hidden bg-[var(--surface-muted)]`}>
         <ContentImage
           src={image}
           alt={altText}
           fill
           sizes={imageSizes}
           quality={75}
-          className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+          className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
           intrinsicWidth={960}
           intrinsicHeight={720}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[rgba(30,12,17,0.46)] via-transparent to-transparent opacity-80" />
-        <span className="absolute left-4 top-4 inline-flex items-center gap-1 rounded-full bg-[rgba(22,9,18,0.72)] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white backdrop-blur-md">
-          <Tag className="h-3.5 w-3.5" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[rgba(28,33,40,0.5)] via-transparent to-transparent opacity-90" />
+        <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-md bg-[rgba(255,255,255,0.92)] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--text-heading)] shadow-sm backdrop-blur-sm">
+          <Tag className="h-3.5 w-3.5 text-[var(--sbm-blue)]" />
           {category}
         </span>
         {variant === "pdf" && (
-          <span className="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full bg-[rgba(255,252,247,0.88)] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#32111d] shadow">
+          <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-md bg-white/95 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--text-heading)] shadow-sm">
             <FileText className="h-3.5 w-3.5" />
             PDF
           </span>
         )}
       </div>
       <div className={`flex flex-1 flex-col p-5 ${compact ? "py-4" : ""}`}>
-        <h3 className={`line-clamp-2 font-semibold leading-snug text-[#32111d] ${variant === "article" ? "text-[1.35rem]" : "text-lg"}`}>
-          {post.title}
-        </h3>
-        <p className={`mt-3 text-sm leading-7 text-[#70545d] ${variant === "article" ? "line-clamp-4" : "line-clamp-3"}`}>
-          {getExcerpt(content.description || post.summary) || "Explore this post."}
-        </p>
+        <div className="flex items-start gap-3">
+          {contentLogo ? (
+            <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-full border border-[var(--border-app)] bg-white shadow-sm">
+              <ContentImage
+                src={contentLogo}
+                alt={`${post.title} thumbnail`}
+                fill
+                className="object-cover"
+                sizes="44px"
+                intrinsicWidth={88}
+                intrinsicHeight={88}
+              />
+            </div>
+          ) : (
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[var(--border-app)] bg-[var(--surface-muted)] text-sm font-bold text-[var(--text-heading)]">
+              {post.title.slice(0, 1).toUpperCase()}
+            </div>
+          )}
+          <div className="min-w-0 flex-1">
+            <div className="flex items-start justify-between gap-2">
+              <h3
+                className={`line-clamp-2 font-semibold leading-snug text-[var(--text-heading)] group-hover:text-[var(--sbm-blue-dim)] ${variant === "article" ? "text-[1.2rem]" : "text-base"}`}
+              >
+                {post.title}
+              </h3>
+              <span className="shrink-0 text-muted-foreground opacity-60" aria-hidden>
+                ⋯
+              </span>
+            </div>
+            <p
+              className={`mt-2 text-sm leading-7 text-[var(--text-body)] ${variant === "article" ? "line-clamp-3" : "line-clamp-2"}`}
+            >
+              {getExcerpt(content.description || post.summary) || "Explore this post."}
+            </p>
+          </div>
+        </div>
         <div className="mt-auto pt-4">
           {content.location && (
-            <div className="inline-flex items-center gap-1 text-xs text-[#7b5f66]">
+            <div className="inline-flex items-center gap-1 text-xs text-muted-foreground">
               <MapPin className="h-3.5 w-3.5" />
               {content.location}
             </div>
           )}
           {content.email && (
-            <div className="mt-2 inline-flex items-center gap-1 text-xs text-[#7b5f66]">
+            <div className="mt-2 inline-flex items-center gap-1 text-xs text-muted-foreground">
               <Mail className="h-3.5 w-3.5" />
               {content.email}
             </div>

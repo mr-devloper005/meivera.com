@@ -8,22 +8,12 @@ import { Footer } from '@/components/shared/footer'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { BookmarkCollectionCard } from '@/components/sbm/bookmark-collection-card'
-import { mockBookmarkCollections } from '@/data/mock-data'
 import type { BookmarkCollection } from '@/types'
 import { loadFromStorage, storageKeys } from '@/lib/local-storage'
 
 export default function BookmarkCollectionsPage() {
   const [storedCollections, setStoredCollections] = useState<BookmarkCollection[]>([])
-  const collections = useMemo(() => {
-    const map = new Map<string, BookmarkCollection>()
-    storedCollections.forEach((collection) => map.set(collection.id, collection))
-    mockBookmarkCollections.forEach((collection) => {
-      if (!map.has(collection.id)) {
-        map.set(collection.id, collection)
-      }
-    })
-    return Array.from(map.values())
-  }, [storedCollections])
+  const collections = useMemo(() => storedCollections, [storedCollections])
 
   useEffect(() => {
     setStoredCollections(loadFromStorage<BookmarkCollection[]>(storageKeys.bookmarkCollections, []))
@@ -54,15 +44,21 @@ export default function BookmarkCollectionsPage() {
         </section>
 
         <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
-          >
-            {collections.map((collection) => (
-              <BookmarkCollectionCard key={collection.id} collection={collection} />
-            ))}
-          </motion.div>
+          {collections.length ? (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+            >
+              {collections.map((collection) => (
+                <BookmarkCollectionCard key={collection.id} collection={collection} />
+              ))}
+            </motion.div>
+          ) : (
+            <div className="rounded-2xl border border-dashed border-[var(--border-app)] bg-white/60 p-10 text-center text-[var(--text-body)]">
+              No collections yet. Create your first collection to get started.
+            </div>
+          )}
         </section>
       </main>
 

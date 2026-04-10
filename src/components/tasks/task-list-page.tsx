@@ -30,7 +30,7 @@ export async function TaskListPage({
   }));
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-transparent">
       <NavbarShell />
       <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         {task === "listing" ? (
@@ -63,26 +63,22 @@ export async function TaskListPage({
             }}
           />
         ) : null}
-        <div className="mb-10 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+        <div className="mb-10 flex flex-col gap-6 rounded-2xl border border-[var(--border-app)] bg-white/90 p-6 shadow-sm sm:p-8 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--sbm-blue-dim)]">
               {taskConfig?.label || task}
             </p>
-            <h1 className="mt-2 text-3xl font-semibold text-foreground">
+            <h1 className="mt-2 text-3xl font-bold text-[var(--text-heading)]">
               {taskConfig?.description || "Latest posts"}
             </h1>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Browse by category to narrow results.
-            </p>
+            <p className="mt-2 text-sm text-[var(--text-body)]">Browse by category to narrow results.</p>
           </div>
-          <form className="flex items-center gap-3" action={taskConfig?.route || "#"}>
-            <label className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-              Category
-            </label>
+          <form className="flex flex-wrap items-center gap-3" action={taskConfig?.route || "#"}>
+            <label className="text-xs font-semibold uppercase tracking-[0.15em] text-muted-foreground">Category</label>
             <select
               name="category"
               defaultValue={normalizedCategory}
-              className="h-10 rounded-lg border border-border bg-card px-3 text-sm text-foreground"
+              className="h-11 rounded-lg border border-[var(--border-app)] bg-[var(--surface-muted)] px-3 text-sm font-medium text-[var(--text-heading)]"
             >
               <option value="all">All categories</option>
               {CATEGORY_OPTIONS.map((item) => (
@@ -93,7 +89,7 @@ export async function TaskListPage({
             </select>
             <button
               type="submit"
-              className="h-10 rounded-lg border border-border bg-secondary px-4 text-sm font-medium text-foreground"
+              className="h-11 rounded-lg bg-[var(--sbm-blue)] px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-[var(--sbm-blue-dim)]"
             >
               Apply
             </button>
@@ -101,10 +97,10 @@ export async function TaskListPage({
         </div>
 
         {intro ? (
-          <section className="mb-12 rounded-3xl border border-border bg-card p-6 sm:p-8">
-            <h2 className="text-2xl font-semibold text-foreground">{intro.title}</h2>
+          <section className="paper-panel mb-12 rounded-2xl p-6 sm:p-8">
+            <h2 className="text-2xl font-bold text-[var(--text-heading)]">{intro.title}</h2>
             {intro.paragraphs.map((paragraph) => (
-              <p key={paragraph.slice(0, 40)} className="mt-4 text-sm leading-7 text-muted-foreground">
+              <p key={paragraph.slice(0, 40)} className="mt-4 text-sm leading-7 text-[var(--text-body)]">
                 {paragraph}
               </p>
             ))}
@@ -113,7 +109,7 @@ export async function TaskListPage({
                 <a
                   key={link.href}
                   href={link.href}
-                  className="font-semibold text-foreground hover:underline"
+                  className="font-semibold text-[var(--sbm-blue-dim)] underline-offset-4 hover:underline"
                 >
                   {link.label}
                 </a>

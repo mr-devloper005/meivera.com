@@ -11,6 +11,8 @@ import { SITE_CONFIG } from "@/lib/site-config";
 import { buildPageMetadata } from "@/lib/seo";
 import { fetchTaskPosts, getPostImages } from "@/lib/task-data";
 import { siteContent } from "@/config/site.content";
+import { HOMEPAGE_FEED_TASK_KEYS } from "@/config/nav.presentation";
+import type { TaskKey } from "@/lib/site-config";
 
 export const revalidate = 300;
 
@@ -27,6 +29,8 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
+  const homeFeedKeys = new Set<TaskKey>(HOMEPAGE_FEED_TASK_KEYS);
+
   const taskFeed = (
     await Promise.all(
       SITE_CONFIG.tasks
@@ -36,7 +40,7 @@ export default async function HomePage() {
           posts: await fetchTaskPosts(task.key, 4, { allowMockFallback: false, fresh: true }),
         }))
     )
-  ).filter(({ posts }) => posts.length);
+  ).filter(({ posts, task }) => posts.length && homeFeedKeys.has(task.key));
 
   const heroImages = taskFeed
     .flatMap(({ posts }) => posts.flatMap((post) => getPostImages(post)))
@@ -44,7 +48,7 @@ export default async function HomePage() {
     .slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-transparent text-foreground">
       <NavbarShell />
       <main>
         <HeroSection images={heroImages} />
@@ -72,38 +76,41 @@ export default async function HomePage() {
           ]}
         />
 
-        <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+        <section className="mx-auto max-w-[1400px] px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
           <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:gap-14">
-            <div>
+            <div className="sbm-animate-in">
               <span className="editorial-label">{siteContent.home.introBadge}</span>
-              <h2 className="editorial-divider mt-5 pb-5 text-4xl font-semibold text-[#3a1622] sm:text-5xl">
+              <h2 className="editorial-divider mt-5 pb-5 text-4xl font-semibold text-[var(--text-heading)] sm:text-5xl">
                 {siteContent.home.introTitle}
               </h2>
-              <div className="space-y-5 text-[15px] leading-8 text-[#5a4148] sm:text-base">
+              <div className="space-y-5 text-[15px] leading-8 text-[var(--text-body)] sm:text-base">
                 {siteContent.home.introParagraphs.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
                 ))}
               </div>
             </div>
 
-            <aside className="paper-panel rounded-[2rem] p-6 sm:p-8">
+            <aside className="paper-panel rounded-2xl p-6 sm:p-8">
               <span className="editorial-label">{siteContent.home.sideBadge}</span>
-              <ul className="mt-6 space-y-4 text-sm leading-7 text-[#553941]">
+              <ul className="mt-6 space-y-4 text-sm leading-7 text-[var(--text-body)]">
                 {siteContent.home.sidePoints.map((point) => (
-                  <li key={point}>{point}</li>
+                  <li key={point} className="flex gap-2">
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--sbm-green)]" aria-hidden />
+                    <span>{point}</span>
+                  </li>
                 ))}
               </ul>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
                   href={siteContent.home.primaryLink.href}
-                  className="inline-flex items-center gap-2 rounded-full bg-[#AE2448] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#8e1b3b]"
+                  className="inline-flex items-center gap-2 rounded-lg bg-[var(--sbm-blue)] px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[var(--sbm-blue-dim)]"
                 >
                   {siteContent.home.primaryLink.label}
                   <ArrowRight className="h-4 w-4" />
                 </Link>
                 <Link
                   href={siteContent.home.secondaryLink.href}
-                  className="inline-flex items-center gap-2 rounded-full border border-[rgba(110,26,55,0.15)] bg-white/70 px-5 py-3 text-sm font-semibold text-[#521a2d] transition hover:bg-white"
+                  className="inline-flex items-center gap-2 rounded-lg border border-[var(--border-app)] bg-white px-5 py-3 text-sm font-semibold text-[var(--text-heading)] transition hover:border-[rgba(133,57,83,0.35)]"
                 >
                   {siteContent.home.secondaryLink.label}
                 </Link>

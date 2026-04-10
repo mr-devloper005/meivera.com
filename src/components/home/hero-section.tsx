@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Search, Sparkles } from "lucide-react";
+import { ArrowRight, ChevronDown, Search, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ContentImage } from "@/components/shared/content-image";
 import { SITE_CONFIG } from "@/lib/site-config";
@@ -27,38 +27,29 @@ export function HeroSection({ images }: { images: string[] }) {
   }, [slides]);
 
   return (
-    <section className="relative overflow-hidden border-b border-[rgba(110,26,55,0.12)] bg-[#160912] text-white">
-      <div className="absolute inset-0">
-        <ContentImage
-          key={slides[activeIndex]}
-          src={slides[activeIndex]}
-          alt={`Latest featured visual ${activeIndex + 1} from ${SITE_CONFIG.name}`}
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-          intrinsicWidth={1600}
-          intrinsicHeight={900}
-        />
-      </div>
+    <section className="relative overflow-hidden border-b border-[var(--border-app)] bg-[var(--surface-muted)]">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(133,57,83,0.08),transparent_42%),radial-gradient(circle_at_85%_10%,rgba(97,45,83,0.08),transparent_38%)]" />
+      <div className="relative mx-auto max-w-[1400px] px-4 pb-16 pt-10 sm:px-6 lg:px-8 lg:pb-20 lg:pt-12">
+        <div className="mb-7 flex flex-wrap items-center justify-between gap-3 lg:mb-9">
+          <p className="inline-flex items-center gap-2 rounded-full border border-[rgba(133,57,83,0.2)] bg-white/80 px-4 py-1.5 text-sm font-semibold text-[var(--text-heading)] shadow-sm backdrop-blur-sm sm:text-base">
+            {siteContent.hero.discoverEyebrow}
+            <ChevronDown className="h-4 w-4 shrink-0 text-[var(--sbm-blue)]" aria-hidden />
+          </p>
+        </div>
 
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(22,9,18,0.92)_0%,rgba(22,9,18,0.76)_42%,rgba(22,9,18,0.78)_100%)]" />
-      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[rgba(247,241,230,1)] via-[rgba(247,241,230,0.68)] to-transparent" />
-
-      <div className="relative mx-auto max-w-7xl px-4 pb-24 pt-12 sm:px-6 lg:px-8 lg:pb-28 lg:pt-16">
-        <div className="grid items-center gap-14 lg:grid-cols-[1.15fr_0.85fr]">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/8 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-white/82 backdrop-blur-md">
-              <Sparkles className="h-4 w-4 text-[#72BAA9]" />
+        <div className="grid items-start gap-10 lg:grid-cols-[1.06fr_0.94fr] lg:gap-12">
+          <div className="max-w-2xl lg:max-w-none">
+            <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(133,57,83,0.2)] bg-white px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--sbm-blue-dim)] shadow-sm">
+              <Sparkles className="h-4 w-4 text-[var(--sbm-blue)]" />
               {siteContent.hero.badge}
             </div>
 
-            <h1 className="mt-6 text-balance text-5xl font-semibold leading-[0.95] text-white sm:text-6xl lg:text-7xl">
-              {siteContent.hero.title[0]}
-              <span className="block text-[#D5E7B5]">{siteContent.hero.title[1]}</span>
+            <h1 className="mt-5 text-balance text-4xl font-black leading-[1.05] tracking-tight text-[var(--text-heading)] sm:text-5xl lg:text-[3.35rem]">
+              {siteContent.hero.title[0]}{" "}
+              <span className="text-[var(--sbm-blue)]">{siteContent.hero.title[1]}</span>
             </h1>
 
-            <p className="mt-6 max-w-2xl text-base leading-8 text-white/78 sm:text-lg">
+            <p className="mt-5 max-w-xl text-base leading-7 text-[var(--text-body)] sm:text-[17px] sm:leading-8">
               {siteContent.hero.description}
             </p>
 
@@ -66,7 +57,7 @@ export function HeroSection({ images }: { images: string[] }) {
               <Button
                 asChild
                 size="lg"
-                className="h-12 rounded-full bg-[#AE2448] px-7 text-sm font-semibold text-white shadow-[0_18px_40px_rgba(174,36,72,0.34)] hover:bg-[#8e1b3b]"
+                className="h-12 rounded-xl bg-[var(--sbm-blue)] px-7 text-sm font-semibold text-white shadow-sm hover:bg-[var(--sbm-blue-dim)]"
               >
                 <Link href={siteContent.hero.primaryCta.href}>
                   {siteContent.hero.primaryCta.label}
@@ -77,78 +68,110 @@ export function HeroSection({ images }: { images: string[] }) {
                 asChild
                 size="lg"
                 variant="outline"
-                className="h-12 rounded-full border-white/18 bg-white/8 px-7 text-sm font-semibold text-white backdrop-blur-md hover:bg-white/12 hover:text-white"
+                className="h-12 rounded-xl border-[var(--border-app)] bg-white px-7 text-sm font-semibold text-[var(--text-heading)] hover:bg-[rgba(97,45,83,0.08)]"
               >
                 <Link href={siteContent.hero.secondaryCta.href}>{siteContent.hero.secondaryCta.label}</Link>
               </Button>
             </div>
 
-            <div className="mt-10 max-w-3xl rounded-[2rem] border border-white/10 bg-white/95 p-3 shadow-[0_25px_80px_rgba(0,0,0,0.35)] backdrop-blur-xl">
-              <form action="/search" className="flex flex-col gap-3 md:flex-row md:items-center">
-                <div className="relative flex-1">
-                  <Search className="absolute left-5 top-1/2 h-5 w-5 -translate-y-1/2 text-[#8d6b73]" />
+            <div className="mt-9">
+              <form
+                action="/search"
+                className="flex min-h-[3.35rem] flex-1 overflow-hidden rounded-2xl border border-[var(--border-app)] bg-white shadow-[0_10px_24px_rgba(44,44,44,0.08)]"
+              >
+                <div className="relative flex min-w-0 flex-1 items-center">
+                  <Search className="pointer-events-none absolute left-4 h-5 w-5 text-[var(--sbm-blue-dim)]/70" />
                   <input
                     name="q"
                     placeholder={siteContent.hero.searchPlaceholder}
-                    className="h-15 w-full rounded-[1.5rem] border border-[rgba(110,26,55,0.12)] bg-[#fffaf6] pl-14 pr-4 text-base text-[#32111d] outline-none transition placeholder:text-[#9d8890] focus:border-[#AE2448]/40"
+                    className="h-full w-full border-0 bg-transparent py-3 pl-12 pr-4 text-base text-[var(--text-heading)] outline-none placeholder:text-[var(--text-body)]/60"
                   />
                 </div>
                 <Button
                   type="submit"
-                  className="h-15 rounded-[1.5rem] bg-[#72BAA9] px-8 text-base font-semibold text-[#1e2020] hover:bg-[#5fa896]"
+                  className="h-auto shrink-0 rounded-none rounded-r-2xl bg-[var(--sbm-blue-dim)] px-6 text-sm font-semibold text-white hover:bg-[var(--sbm-blue)] sm:px-8"
                 >
                   Search
                 </Button>
               </form>
             </div>
 
-            <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-white/72">
-              <span className="font-semibold uppercase tracking-[0.22em] text-white/86">{siteContent.hero.focusLabel}</span>
-              {SITE_CONFIG.tasks
-                .filter((task) => task.enabled)
-                .slice(0, 5)
-                .map((task) => (
-                  <Link key={task.key} href={task.route} className="transition hover:text-[#D5E7B5]">
-                    {task.label}
-                  </Link>
-                ))}
+            <div className="mt-5 flex flex-wrap items-center gap-2">
+              {siteContent.hero.filterChips.map((chip) => (
+                <Link
+                  key={chip.href}
+                  href={chip.href}
+                  className="inline-flex items-center rounded-xl border border-[var(--border-app)] bg-white px-4 py-2 text-xs font-semibold uppercase tracking-wide text-[var(--text-body)] shadow-sm transition hover:border-[rgba(133,57,83,0.35)] hover:bg-[rgba(97,45,83,0.08)] hover:text-[var(--sbm-blue-dim)]"
+                >
+                  {chip.label}
+                </Link>
+              ))}
+            </div>
+
+            <div className="mt-8 flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-[var(--border-app)] pt-6 text-sm text-[var(--text-body)]">
+              <span className="font-semibold uppercase tracking-[0.16em] text-[var(--text-heading)]">{siteContent.hero.focusLabel}</span>
+              <Link href="/sbm" className="font-medium hover:text-[var(--sbm-blue-dim)]">
+                Bookmarks
+              </Link>
+              <span className="text-muted-foreground">·</span>
+              <Link href="/profile" className="font-medium hover:text-[var(--sbm-blue-dim)]">
+                Profiles
+              </Link>
+              <span className="text-muted-foreground">·</span>
+              <Link href="/sbm/collections" className="font-medium hover:text-[var(--sbm-blue-dim)]">
+                Collections
+              </Link>
+              <span className="text-muted-foreground">·</span>
+              <Link href="/search" className="font-medium hover:text-[var(--sbm-blue-dim)]">
+                Search
+              </Link>
             </div>
           </div>
 
-          <div className="relative lg:pl-8">
-            <div className="paper-panel relative overflow-hidden rounded-[2rem] p-4 md:p-5">
-              <div className="relative aspect-[4/5] overflow-hidden rounded-[1.6rem] bg-[#2b0f19]">
+          <div className="relative lg:pl-2">
+            <div className="overflow-hidden rounded-[1.35rem] border border-[var(--border-app)] bg-white p-3 shadow-[0_14px_36px_rgba(44,44,44,0.1)] sm:p-4">
+              <div className="relative flex items-center gap-3 rounded-xl border border-[var(--border-app)] bg-[var(--surface-muted)] px-3 py-2.5">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white text-sm font-bold text-[var(--sbm-blue)] shadow-sm">
+                  {SITE_CONFIG.name.slice(0, 1)}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-semibold text-[var(--text-heading)]">{SITE_CONFIG.name}</p>
+                  <p className="text-xs text-muted-foreground">Featured resource preview</p>
+                </div>
+                <span className="text-muted-foreground">⋯</span>
+              </div>
+              <div className="relative mt-3 aspect-[4/3] overflow-hidden rounded-xl border border-[var(--border-app)] bg-[var(--surface-muted)]">
                 <ContentImage
+                  key={slides[activeIndex]}
                   src={slides[activeIndex]}
-                  alt={`Featured slide ${activeIndex + 1}`}
+                  alt={`Featured visual ${activeIndex + 1} from ${SITE_CONFIG.name}`}
                   fill
-                  sizes="(max-width: 1024px) 90vw, 38vw"
+                  priority
+                  sizes="(max-width: 1024px) 90vw, 42vw"
                   className="object-cover"
-                  intrinsicWidth={960}
-                  intrinsicHeight={1200}
+                  intrinsicWidth={1200}
+                  intrinsicHeight={900}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[rgba(22,9,18,0.95)] via-[rgba(22,9,18,0.3)] to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-6 text-left">
-                  <div className="inline-flex items-center rounded-full bg-white/12 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-white/80 backdrop-blur-md">
+                <div className="absolute inset-0 bg-gradient-to-t from-[rgba(44,44,44,0.7)] via-[rgba(44,44,44,0.12)] to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-5 text-left">
+                  <div className="inline-flex items-center rounded-md bg-white/92 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.15em] text-[var(--sbm-blue-dim)] shadow-sm backdrop-blur-sm">
                     {siteContent.hero.featureCardBadge}
                   </div>
-                  <p className="mt-4 max-w-xs text-2xl font-semibold leading-tight text-white sm:text-3xl">
+                  <p className="mt-3 max-w-md text-lg font-semibold leading-snug text-white sm:text-xl">
                     {siteContent.hero.featureCardTitle}
                   </p>
-                  <p className="mt-3 max-w-sm text-sm leading-6 text-white/72">
-                    {siteContent.hero.featureCardDescription}
-                  </p>
+                  <p className="mt-2 max-w-sm text-sm leading-6 text-white/85">{siteContent.hero.featureCardDescription}</p>
                 </div>
               </div>
             </div>
 
             {slides.length > 1 ? (
-              <div className="mt-5 flex items-center gap-2">
+              <div className="mt-4 flex items-center justify-center gap-2 lg:justify-start">
                 {slides.map((_, index) => (
                   <span
                     key={index}
-                    className={`h-2.5 rounded-full transition-all duration-300 ${
-                      index === activeIndex ? "w-10 bg-[#AE2448]" : "w-2.5 bg-white/40"
+                    className={`rounded-full transition-all duration-300 ${
+                      index === activeIndex ? "h-2.5 w-8 bg-[var(--sbm-blue)]" : "h-2.5 w-2.5 bg-[var(--border-app)]"
                     }`}
                   />
                 ))}

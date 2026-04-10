@@ -1,29 +1,16 @@
 import Link from 'next/link'
-import { FileText, Building2, LayoutGrid, Tag, Github, Twitter, Linkedin, Image as ImageIcon, User } from 'lucide-react'
-import { SITE_CONFIG, type TaskKey } from '@/lib/site-config'
+import { Github, Twitter, Linkedin, Search, FolderOpen, Compass, User } from 'lucide-react'
+import { SITE_CONFIG } from '@/lib/site-config'
 import { siteContent } from '@/config/site.content'
 
-const taskIcons: Record<TaskKey, any> = {
-  article: FileText,
-  listing: Building2,
-  sbm: LayoutGrid,
-  classified: Tag,
-  image: ImageIcon,
-  profile: User,
-  social: LayoutGrid,
-  pdf: FileText,
-  org: Building2,
-  comment: FileText,
-}
+const discoverLinks = [
+  { name: 'Explore bookmarks', href: '/sbm', icon: Compass },
+  { name: 'Collections', href: '/sbm/collections', icon: FolderOpen },
+  { name: 'Profiles', href: '/profile', icon: User },
+  { name: 'Search', href: '/search', icon: Search },
+]
 
 const footerLinks = {
-  platform: SITE_CONFIG.tasks
-    .filter((task) => task.enabled)
-    .map((task) => ({
-      name: task.label,
-      href: task.route,
-      icon: taskIcons[task.key] || LayoutGrid,
-    })),
   company: [
     { name: 'About', href: '/about' },
     { name: 'Team', href: '/team' },
@@ -53,12 +40,12 @@ const socialLinks = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-[rgba(110,26,55,0.12)] bg-[linear-gradient(180deg,rgba(248,242,233,0.7),rgba(255,250,244,0.98))]">
-      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-        <div className="grid gap-10 md:grid-cols-[1.2fr_0.8fr_0.8fr_0.8fr_0.8fr]">
+    <footer className="border-t border-[var(--border-app)] bg-[linear-gradient(180deg,#ffffff_0%,var(--surface-muted)_100%)]">
+      <div className="mx-auto max-w-[1400px] px-4 py-14 sm:px-6 lg:px-8">
+        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.25fr_1fr_0.9fr_0.9fr]">
           <div>
             <Link href="/" className="flex items-center gap-3">
-              <div className="h-11 w-11 overflow-hidden rounded-full border border-[rgba(110,26,55,0.14)] bg-white p-1 shadow-sm">
+              <div className="h-11 w-11 overflow-hidden rounded-lg border border-[var(--border-app)] bg-white p-1 shadow-sm">
                 <img
                   src="/favicon.png?v=20260401"
                   alt={`${SITE_CONFIG.name} logo`}
@@ -68,19 +55,19 @@ export function Footer() {
                 />
               </div>
               <div>
-                <span className="block text-lg font-semibold text-[#34141f]">{SITE_CONFIG.name}</span>
-                <span className="text-xs uppercase tracking-[0.22em] text-[#8b6770]">{siteContent.footer.tagline}</span>
+                <span className="block bg-gradient-to-r from-[var(--sbm-blue)] to-[var(--sbm-green)] bg-clip-text text-lg font-bold text-transparent">
+                  {SITE_CONFIG.name}
+                </span>
+                <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-[var(--text-body)]/85">{siteContent.footer.tagline}</span>
               </div>
             </Link>
-            <p className="mt-5 max-w-sm text-sm leading-7 text-[#70545d]">
-              {SITE_CONFIG.description}
-            </p>
-            <div className="mt-6 flex gap-3">
+            <p className="mt-5 max-w-sm text-sm leading-7 text-[var(--text-body)]">{SITE_CONFIG.description}</p>
+            <div className="mt-6 flex gap-2.5">
               {socialLinks.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="rounded-full border border-[rgba(110,26,55,0.12)] bg-white/70 p-2.5 text-[#7b5f66] transition hover:border-[rgba(110,26,55,0.18)] hover:bg-white hover:text-[#6e1a37]"
+                  className="rounded-lg border border-[var(--border-app)] bg-white p-2.5 text-[var(--text-body)] transition hover:border-[rgba(133,57,83,0.35)] hover:text-[var(--sbm-blue-dim)]"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -92,12 +79,12 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-[0.22em] text-[#4a202d]">Platform</h3>
+            <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--text-heading)]">{siteContent.footer.discoverHeading}</h3>
             <ul className="mt-5 space-y-3">
-              {footerLinks.platform.map((item) => (
+              {discoverLinks.map((item) => (
                 <li key={item.name}>
-                  <Link href={item.href} className="flex items-center gap-2 text-sm text-[#70545d] transition hover:text-[#8f1f3f]">
-                    <item.icon className="h-4 w-4" />
+                  <Link href={item.href} className="flex items-center gap-2 text-sm text-[var(--text-body)] transition hover:text-[var(--sbm-blue-dim)]">
+                    <item.icon className="h-4 w-4 shrink-0 opacity-80" />
                     {item.name}
                   </Link>
                 </li>
@@ -106,11 +93,11 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-[0.22em] text-[#4a202d]">Company</h3>
+            <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--text-heading)]">Company</h3>
             <ul className="mt-5 space-y-3">
               {footerLinks.company.map((item) => (
                 <li key={item.name}>
-                  <Link href={item.href} className="text-sm text-[#70545d] transition hover:text-[#8f1f3f]">
+                  <Link href={item.href} className="text-sm text-[var(--text-body)] transition hover:text-[var(--sbm-blue-dim)]">
                     {item.name}
                   </Link>
                 </li>
@@ -119,24 +106,18 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-[0.22em] text-[#4a202d]">Resources</h3>
+            <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--text-heading)]">Resources & legal</h3>
             <ul className="mt-5 space-y-3">
               {footerLinks.resources.map((item) => (
                 <li key={item.name}>
-                  <Link href={item.href} className="text-sm text-[#70545d] transition hover:text-[#8f1f3f]">
+                  <Link href={item.href} className="text-sm text-[var(--text-body)] transition hover:text-[var(--sbm-blue-dim)]">
                     {item.name}
                   </Link>
                 </li>
               ))}
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="text-sm font-semibold uppercase tracking-[0.22em] text-[#4a202d]">Legal</h3>
-            <ul className="mt-5 space-y-3">
               {footerLinks.legal.map((item) => (
                 <li key={item.name}>
-                  <Link href={item.href} className="text-sm text-[#70545d] transition hover:text-[#8f1f3f]">
+                  <Link href={item.href} className="text-sm text-muted-foreground transition hover:text-[var(--text-heading)]">
                     {item.name}
                   </Link>
                 </li>
@@ -145,8 +126,8 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 border-t border-[rgba(110,26,55,0.12)] pt-6">
-          <p className="text-center text-sm text-[#7b5f66]">
+        <div className="mt-12 border-t border-[var(--border-app)] pt-6">
+          <p className="text-center text-sm text-muted-foreground">
             &copy; {new Date().getFullYear()} {SITE_CONFIG.name}. All rights reserved.
           </p>
         </div>

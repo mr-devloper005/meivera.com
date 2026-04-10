@@ -10,6 +10,7 @@ import { buildPostUrl } from "@/lib/task-data";
 import { buildPostMetadata, buildTaskMetadata } from "@/lib/seo";
 import { fetchTaskPostBySlug, fetchTaskPosts } from "@/lib/task-data";
 import { SITE_CONFIG } from "@/lib/site-config";
+import { siteContent } from "@/config/site.content";
 
 export const revalidate = 3;
 
@@ -107,35 +108,40 @@ export default async function ProfileDetailPage({ params }: { params: Promise<{ 
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-transparent">
       <NavbarShell />
-      <main className="mx-auto w-full max-w-6xl px-4 pb-16 pt-10 sm:px-6 lg:px-8">
+      <main className="mx-auto w-full max-w-[1400px] px-4 pb-16 pt-10 sm:px-6 lg:px-8">
         <SchemaJsonLd data={breadcrumbData} />
-        <section className="rounded-3xl border border-border/60 bg-white/90 p-8 shadow-sm md:p-12">
-          <div className="grid gap-8 md:grid-cols-[200px_1fr] md:items-start">
+        <section className="paper-panel rounded-2xl p-8 md:p-12">
+          <div className="grid gap-10 md:grid-cols-[minmax(0,220px)_1fr] md:items-start md:gap-12">
             <div className="flex justify-center md:justify-start">
-              <div className="relative h-36 w-36 overflow-hidden rounded-full border border-border/70 bg-muted">
+              <div className="relative h-44 w-44 overflow-hidden rounded-full border-4 border-white bg-[var(--surface-muted)] shadow-[0_20px_50px_rgba(28,33,40,0.12)] ring-2 ring-[rgba(133,57,83,0.26)] sm:h-52 sm:w-52">
                 {logoUrl ? (
-                  <ContentImage src={logoUrl} alt={post.title} fill className="object-cover" sizes="144px" intrinsicWidth={144} intrinsicHeight={144} />
+                  <ContentImage src={logoUrl} alt={post.title} fill className="object-cover" sizes="208px" intrinsicWidth={208} intrinsicHeight={208} />
                 ) : (
-                  <div className="flex h-full w-full items-center justify-center text-3xl font-semibold text-muted-foreground">
+                  <div className="flex h-full w-full items-center justify-center text-4xl font-bold text-muted-foreground sm:text-5xl">
                     {post.title.slice(0, 1).toUpperCase()}
                   </div>
                 )}
               </div>
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-foreground sm:text-4xl">{brandName}</h1>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--sbm-green-dim)]">Public profile</p>
+              <h1 className="mt-2 text-3xl font-bold text-[var(--text-heading)] sm:text-4xl md:text-[2.5rem]">{brandName}</h1>
               {domain ? (
-                <p className="mt-1 text-sm font-medium text-muted-foreground">{domain}</p>
+                <p className="mt-2 text-sm font-medium text-[var(--text-body)]">{domain}</p>
               ) : null}
               <article
-                className="article-content prose prose-slate mt-6 max-w-2xl text-base leading-relaxed prose-p:my-4 prose-a:text-primary prose-a:underline prose-strong:font-semibold"
+                className="article-content prose prose-slate mt-6 max-w-2xl text-base leading-relaxed text-[var(--text-body)] prose-p:my-4 prose-a:text-[var(--sbm-blue-dim)] prose-a:underline prose-strong:font-semibold"
                 dangerouslySetInnerHTML={{ __html: descriptionHtml }}
               />
               {website ? (
                 <div className="mt-8">
-                  <Button asChild size="lg" className="px-7 text-base">
+                  <Button
+                    asChild
+                    size="lg"
+                    className="rounded-lg border-0 bg-[var(--sbm-blue)] px-8 text-base font-semibold text-white shadow-sm hover:bg-[var(--sbm-blue-dim)]"
+                  >
                     <Link href={website} target="_blank" rel="noopener noreferrer">
                       Visit Official Site
                     </Link>
@@ -148,9 +154,9 @@ export default async function ProfileDetailPage({ params }: { params: Promise<{ 
 
         {suggestedArticles.length ? (
           <section className="mt-12">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-foreground">Suggested articles</h2>
-              <Link href="/articles" className="text-sm font-medium text-primary hover:underline">
+            <div className="flex items-center justify-between border-b border-[var(--border-app)] pb-4">
+              <h2 className="text-xl font-bold text-[var(--text-heading)]">{siteContent.profileSuggestedReadingTitle}</h2>
+              <Link href="/articles" className="text-sm font-semibold text-[var(--sbm-blue-dim)] hover:underline">
                 View all
               </Link>
             </div>
@@ -164,21 +170,21 @@ export default async function ProfileDetailPage({ params }: { params: Promise<{ 
                 />
               ))}
             </div>
-            <nav className="mt-6 rounded-2xl border border-border bg-card/60 p-4">
-              <p className="text-sm font-semibold text-foreground">Related links</p>
-              <ul className="mt-2 space-y-2 text-sm">
+            <nav className="mt-8 rounded-2xl border border-[var(--border-app)] bg-white/90 p-5 shadow-sm">
+              <p className="text-sm font-semibold text-[var(--text-heading)]">Related links</p>
+              <ul className="mt-3 space-y-2 text-sm">
                 {suggestedArticles.slice(0, 3).map((article) => (
                   <li key={`related-${article.id}`}>
                     <Link
                       href={buildPostUrl("article", article.slug)}
-                      className="text-primary underline-offset-4 hover:underline"
+                      className="text-[var(--sbm-blue-dim)] underline-offset-4 hover:underline"
                     >
                       {article.title}
                     </Link>
                   </li>
                 ))}
                 <li>
-                  <Link href="/profile" className="text-primary underline-offset-4 hover:underline">
+                  <Link href="/profile" className="text-[var(--sbm-blue-dim)] underline-offset-4 hover:underline">
                     Browse all profiles
                   </Link>
                 </li>

@@ -26,9 +26,9 @@ export function TaskFeedSection({
   if (!posts.length) return null;
 
   return (
-    <section className="py-14 sm:py-16">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-8 grid gap-5 border-b border-[rgba(110,26,55,0.14)] pb-6 md:grid-cols-[1fr_auto] md:items-end">
+    <section className="border-t border-[var(--border-app)] bg-white/40 py-14 backdrop-blur-[2px] sm:py-16">
+      <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
+        <div className="mb-8 grid gap-5 border-b border-[var(--border-app)] pb-6 md:grid-cols-[1fr_auto] md:items-end">
           <div>
             <div className="editorial-label">
               {(() => {
@@ -37,16 +37,16 @@ export function TaskFeedSection({
               })()}
               {task.label}
             </div>
-            <h2 className="mt-4 text-3xl font-semibold text-[#35131f] sm:text-[2.15rem]">
+            <h2 className="mt-4 text-3xl font-bold text-[var(--text-heading)] sm:text-[2.15rem]">
               {siteContent.taskSectionHeading.replace("{label}", task.label)}
             </h2>
-            <p className="mt-3 max-w-2xl text-sm leading-7 text-[#6e555d] sm:text-[15px]">
+            <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--text-body)] sm:text-[15px]">
               {task.description || siteContent.taskSectionDescriptionSuffix}
             </p>
           </div>
           <Link
             href={task.route}
-            className="inline-flex items-center gap-2 text-sm font-semibold text-[#8f1f3f] transition hover:text-[#6e1a37]"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--sbm-blue-dim)] transition hover:text-[var(--sbm-blue)]"
           >
             View all
             <ArrowRight className="h-4 w-4" />

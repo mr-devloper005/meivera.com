@@ -72,11 +72,11 @@ export default async function SearchPage({
 
   return (
     <PageShell
-      title="Search"
+      title="Search & discovery"
       description={
         query
-          ? `Results for "${query}"`
-          : "Browse the latest posts across every task."
+          ? `Results for “${query}” across bookmarks, profiles, and the full catalog.`
+          : "Find bookmarks, profiles, collections, and everything else in one place."
       }
       actions={
         <form action="/search" className="flex w-full gap-2 sm:w-auto">
@@ -88,11 +88,11 @@ export default async function SearchPage({
             <Input
               name="q"
               defaultValue={query}
-              placeholder="Search across tasks..."
-              className="h-11 pl-9"
+              placeholder="Search bookmarks, profiles, resources…"
+              className="h-11 border-[var(--border-app)] pl-9 shadow-sm"
             />
           </div>
-          <Button type="submit" className="h-11">
+          <Button type="submit" className="h-11 rounded-lg bg-[var(--sbm-blue)] font-semibold text-white hover:bg-[var(--sbm-blue-dim)]">
             Search
           </Button>
         </form>
@@ -107,8 +107,8 @@ export default async function SearchPage({
           })}
         </div>
       ) : (
-        <div className="rounded-2xl border border-dashed border-border p-10 text-center text-muted-foreground">
-          No matching posts yet.
+        <div className="rounded-2xl border border-dashed border-[var(--border-app)] bg-white/60 p-10 text-center text-[var(--text-body)]">
+          No matching posts yet. Try another keyword or explore bookmarks and profiles from the home page.
         </div>
       )}
     </PageShell>

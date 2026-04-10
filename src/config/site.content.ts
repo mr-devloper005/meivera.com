@@ -2,80 +2,96 @@ import type { TaskKey } from '@/lib/site-config'
 
 export const siteContent = {
   navbar: {
-    tagline: 'Independent reading platform',
+    tagline: 'Curate · Save · Discover people',
+    locationLabel: 'Jaipur, India',
   },
   footer: {
-    tagline: 'Stories, resources, and discoverable posts',
+    tagline: 'Bookmarks, collections, and profile-led discovery',
+    discoverHeading: 'Discover',
+    moreHeading: 'Also available',
   },
   hero: {
-    badge: 'Latest stories and visuals',
-    title: ['A thoughtful home for', 'stories, visuals, and discovery.'],
+    badge: 'Social bookmarking & profiles',
+    discoverEyebrow: 'Discover curated resources and the people behind them.',
+    title: ['Collect and organize', 'the links worth keeping.'],
     description:
-      'Explore fresh articles, image-led posts, and discoverable content across the platform through a calmer and clearer browsing experience.',
+      'Save trusted resources into collections, polish your public profile, and explore what other curators bookmark—without losing the calm, library-like rhythm of browsing.',
     primaryCta: {
-      label: 'Read latest stories',
-      href: '/articles',
+      label: 'Explore bookmarks',
+      href: '/sbm',
     },
     secondaryCta: {
-      label: 'Explore visuals',
-      href: '/image-sharing',
+      label: 'Browse profiles',
+      href: '/profile',
     },
-    searchPlaceholder: 'Search stories, visuals, listings, and more',
-    focusLabel: 'Focus',
-    featureCardBadge: 'latest cover rotation',
-    featureCardTitle: 'Latest posts shape the visual identity of the homepage.',
+    searchPlaceholder: 'Search bookmarks, profiles, collections, and more',
+    focusLabel: 'Jump to',
+    filterChips: [
+      { label: 'Bookmarks', href: '/sbm' },
+      { label: 'Profiles', href: '/profile' },
+      { label: 'Collections', href: '/sbm/collections' },
+    ],
+    featureCardBadge: 'From the feed',
+    featureCardTitle: 'Fresh saves and identity-rich profiles in rotation.',
     featureCardDescription:
-      'Recent images and stories stay at the center of the experience without changing any core platform behavior.',
+      'A live preview of what the community is bookmarking—compact cards, clear metadata, and room for your own avatar-led presence.',
   },
   home: {
     metadata: {
-      title: 'Stories, visuals, and discoverable content',
+      title: 'Curated bookmarks, collections, and profile discovery',
       description:
-        'Explore articles, images, listings, and curated posts through a cleaner reading-first experience.',
-      openGraphTitle: 'Stories, visuals, and discoverable content',
+        'Discover saved links, public collections, and profile-led curation—a calm space to collect, revisit, and explore trusted resources.',
+      openGraphTitle: 'Curated bookmarks and profile discovery',
       openGraphDescription:
-        'Discover articles, visual posts, and connected content through a calmer reading-first experience.',
-      keywords: ['story platform', 'article site', 'visual content', 'content discovery'],
+        'Save and organize links, browse collections, and meet the curators behind every bookmark.',
+      keywords: [
+        'social bookmarking',
+        'link curation',
+        'saved resources',
+        'collections',
+        'profile discovery',
+      ],
     },
-    introBadge: 'About the platform',
-    introTitle: 'Built for reading, browsing, and connecting different kinds of content.',
+    introBadge: 'Why bookmark here',
+    introTitle: 'Discover curated resources and the people behind them.',
     introParagraphs: [
-      'This site brings together article-style reading, visual browsing, and structured discovery so visitors can move naturally between different content types.',
-      'Instead of separating stories, visuals, and supporting resources into disconnected surfaces, the platform keeps them connected in one place with consistent navigation and easier exploration.',
-      'Whether someone starts with a story, an image-led post, a listing, or a resource page, they can keep discovering related content without friction.',
+      'This home is tuned for social bookmarking: saved links, organized collections, and profiles that show who is curating what—so discovery feels personal as well as practical.',
+      'Collections and tags keep resources easy to revisit, while profile imagery and headers put identity at the center of trust.',
+      'Search still reaches the full platform when you need it; the experience you see first is built around saves, shelves, and the humans recommending them.',
     ],
-    sideBadge: 'At a glance',
+    sideBadge: 'Start curating',
     sidePoints: [
-      'Reading-first homepage with stronger emphasis on stories and imagery.',
-      'Connected sections for articles, visuals, listings, and supporting resources.',
-      'Cleaner browsing rhythm designed to make exploration feel easier.',
-      'Lightweight interactions that keep the experience fast and readable.',
+      'Create a profile and add a strong avatar or logo.',
+      'Save links into themed collections you can share.',
+      'Explore bookmarks from other curators and follow threads of trust.',
+      'Search across bookmarks, profiles, and the wider catalog when you need depth.',
     ],
     primaryLink: {
-      label: 'Browse articles',
-      href: '/articles',
+      label: 'Open bookmarks',
+      href: '/sbm',
     },
     secondaryLink: {
-      label: 'See visuals',
-      href: '/image-sharing',
+      label: 'View collections',
+      href: '/sbm/collections',
     },
   },
   cta: {
-    badge: 'Start exploring',
-    title: 'Explore articles, visuals, and resources through one connected experience.',
+    badge: 'Join the shelf',
+    title: 'Create your profile, save your first link, and start a collection.',
     description:
-      'Move between articles, image-led posts, listings, and resources through one clearer and more connected visual system.',
+      'Upload a profile image, bookmark what you trust, and give others a clear view of how you think—premium, calm, and built for revisiting.',
     primaryCta: {
-      label: 'Get Started Free',
+      label: 'Sign up free',
       href: '/register',
     },
     secondaryCta: {
-      label: 'Contact Sales',
-      href: '/contact',
+      label: 'Explore bookmarks',
+      href: '/sbm',
     },
   },
   taskSectionHeading: 'Latest {label}',
   taskSectionDescriptionSuffix: 'Browse the newest posts in this section.',
+  profileSuggestedReadingTitle: 'Related reading',
 } as const
 
 export const taskPageMetadata: Record<Exclude<TaskKey, 'comment' | 'org' | 'social'>, { title: string; description: string }> = {
@@ -121,9 +137,9 @@ export const taskIntroCopy: Record<
       'Browse by category to compare posts in context, discover related content, and move between formats without losing your place.',
     ],
     links: [
-      { label: 'Read articles', href: '/articles' },
-      { label: 'Explore classifieds', href: '/classifieds' },
+      { label: 'Explore bookmarks', href: '/sbm' },
       { label: 'View profiles', href: '/profile' },
+      { label: 'Browse collections', href: '/sbm/collections' },
     ],
   },
   article: {
@@ -134,9 +150,9 @@ export const taskIntroCopy: Record<
       'Use this section to browse thoughtful posts, revisit useful writing, and move into supporting content when you want more context.',
     ],
     links: [
-      { label: 'Explore listings', href: '/listings' },
-      { label: 'Open image sharing', href: '/image-sharing' },
-      { label: 'Browse resources', href: '/pdf' },
+      { label: 'Explore bookmarks', href: '/sbm' },
+      { label: 'View profiles', href: '/profile' },
+      { label: 'Browse collections', href: '/sbm/collections' },
     ],
   },
   classified: {
@@ -147,9 +163,9 @@ export const taskIntroCopy: Record<
       'Browse by category to find announcements quickly, then continue into related sections when you need more detail.',
     ],
     links: [
-      { label: 'Business listings', href: '/listings' },
-      { label: 'Read articles', href: '/articles' },
+      { label: 'Explore bookmarks', href: '/sbm' },
       { label: 'View profiles', href: '/profile' },
+      { label: 'Browse collections', href: '/sbm/collections' },
     ],
   },
   image: {
@@ -160,9 +176,9 @@ export const taskIntroCopy: Record<
       'Browse the latest visual updates, then continue into related stories or supporting pages for more context.',
     ],
     links: [
-      { label: 'Read articles', href: '/articles' },
-      { label: 'Explore listings', href: '/listings' },
-      { label: 'Open classifieds', href: '/classifieds' },
+      { label: 'Explore bookmarks', href: '/sbm' },
+      { label: 'View profiles', href: '/profile' },
+      { label: 'Browse collections', href: '/sbm/collections' },
     ],
   },
   profile: {
@@ -173,9 +189,9 @@ export const taskIntroCopy: Record<
       'Browse profiles to understand people and brands more clearly, then continue into related content from the same source.',
     ],
     links: [
-      { label: 'Open listings', href: '/listings' },
-      { label: 'Read articles', href: '/articles' },
-      { label: 'Browse image sharing', href: '/image-sharing' },
+      { label: 'Explore bookmarks', href: '/sbm' },
+      { label: 'View profiles', href: '/profile' },
+      { label: 'Browse collections', href: '/sbm/collections' },
     ],
   },
   sbm: {
@@ -186,9 +202,9 @@ export const taskIntroCopy: Record<
       'Use this section to organize helpful sources and discover connected content without leaving the broader site experience.',
     ],
     links: [
-      { label: 'Browse articles', href: '/articles' },
-      { label: 'Explore listings', href: '/listings' },
-      { label: 'Open PDFs', href: '/pdf' },
+      { label: 'Explore bookmarks', href: '/sbm' },
+      { label: 'View profiles', href: '/profile' },
+      { label: 'Browse collections', href: '/sbm/collections' },
     ],
   },
   pdf: {
@@ -199,9 +215,9 @@ export const taskIntroCopy: Record<
       'Browse by category to find relevant files quickly, then continue into related sections when you want more context.',
     ],
     links: [
-      { label: 'Read articles', href: '/articles' },
-      { label: 'See listings', href: '/listings' },
-      { label: 'Explore profiles', href: '/profile' },
+      { label: 'Explore bookmarks', href: '/sbm' },
+      { label: 'View profiles', href: '/profile' },
+      { label: 'Browse collections', href: '/sbm/collections' },
     ],
   },
   social: {
@@ -212,9 +228,9 @@ export const taskIntroCopy: Record<
       'Use these posts as lightweight entry points into the broader site experience.',
     ],
     links: [
-      { label: 'Open listings', href: '/listings' },
-      { label: 'Read articles', href: '/articles' },
-      { label: 'View PDFs', href: '/pdf' },
+      { label: 'Explore bookmarks', href: '/sbm' },
+      { label: 'View profiles', href: '/profile' },
+      { label: 'Browse collections', href: '/sbm/collections' },
     ],
   },
   comment: {
@@ -225,9 +241,9 @@ export const taskIntroCopy: Record<
       'Use comments as supporting context beneath stories, then continue exploring related content from the same topic area.',
     ],
     links: [
-      { label: 'Explore articles', href: '/articles' },
-      { label: 'View listings', href: '/listings' },
-      { label: 'See classifieds', href: '/classifieds' },
+      { label: 'Explore bookmarks', href: '/sbm' },
+      { label: 'View profiles', href: '/profile' },
+      { label: 'Browse collections', href: '/sbm/collections' },
     ],
   },
   org: {
@@ -238,9 +254,9 @@ export const taskIntroCopy: Record<
       'Connect organization pages with related content to build a clearer and more unified site presence.',
     ],
     links: [
-      { label: 'Business listings', href: '/listings' },
-      { label: 'Read articles', href: '/articles' },
-      { label: 'PDF library', href: '/pdf' },
+      { label: 'Explore bookmarks', href: '/sbm' },
+      { label: 'View profiles', href: '/profile' },
+      { label: 'Browse collections', href: '/sbm/collections' },
     ],
   },
 }
