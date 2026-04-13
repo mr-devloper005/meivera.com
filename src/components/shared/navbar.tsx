@@ -40,7 +40,7 @@ export function Navbar() {
           <Link href="/" className="flex shrink-0 items-center gap-3 whitespace-nowrap pr-1">
             <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-[rgba(133,57,83,0.22)] bg-white p-1 shadow-sm">
               <img
-                src="/favicon.png?v=20260401"
+                src="/favicon.png?v=20260413"
                 alt={`${SITE_CONFIG.name} logo`}
                 width="44"
                 height="44"

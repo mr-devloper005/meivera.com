@@ -1,68 +1,117 @@
 import Link from "next/link";
-import { PageShell } from "@/components/shared/page-shell";
-import { Card, CardContent } from "@/components/ui/card";
+import { LuxuryMarketingShell, luxuryBtnOutline, luxuryBtnPrimary } from "@/components/marketing/luxury-marketing-shell";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { SITE_CONFIG } from "@/lib/site-config";
+import { Clock, Globe, HeartHandshake, Laptop } from "lucide-react";
 
 const roles = [
-  { title: "Product Designer", location: "Remote", type: "Full-time", level: "Mid" },
-  { title: "Frontend Engineer", location: "New York, NY", type: "Full-time", level: "Senior" },
-  { title: "Community Lead", location: "Remote", type: "Part-time", level: "Mid" },
+  {
+    title: "Principal product designer",
+    location: "Remote · EU or US",
+    type: "Full-time",
+    level: "Lead",
+    blurb: "Shape the visual language of discovery—from bookmark cards to editorial layouts—with systems thinking and a poet’s eye.",
+  },
+  {
+    title: "Staff frontend engineer",
+    location: "New York or remote",
+    type: "Full-time",
+    level: "Senior",
+    blurb: "Own performance, accessibility, and motion across Next.js surfaces; partner closely with design on micro‑delight.",
+  },
+  {
+    title: "Community curator",
+    location: "Remote",
+    type: "Part-time",
+    level: "Mid",
+    blurb: "Welcome new creators, moderate with empathy, and translate member feedback into crisp product narratives.",
+  },
+  {
+    title: "Developer experience advocate",
+    location: "Remote",
+    type: "Full-time",
+    level: "Mid",
+    blurb: "Document APIs, craft sample apps, and make third‑party integrations feel as polished as our first‑party flows.",
+  },
 ];
 
 const benefits = [
-  "Flexible schedules and remote-first culture",
-  "Health, dental, and vision coverage",
-  "Annual learning stipend",
-  "Quarterly offsites and team retreats",
+  { icon: Globe, text: "Remote‑first with quarterly in‑person salons in Lisbon, NYC, or Singapore." },
+  { icon: HeartHandshake, text: "Inclusive health coverage, mental wellness stipend, and caregiver leave." },
+  { icon: Laptop, text: "Top‑tier hardware, ergonomic budget, and a learning fund for courses & conferences." },
+  { icon: Clock, text: "Async‑friendly hours, meeting‑light culture, and protected focus blocks on Wednesdays." },
 ];
 
 export default function CareersPage() {
   return (
-    <PageShell
-      title="Careers"
-      description={`Help us build the future of community-driven publishing at ${SITE_CONFIG.name}.`}
+    <LuxuryMarketingShell
+      eyebrow="Join us"
+      title={`Careers at ${SITE_CONFIG.name}`}
+      description={`Help us craft the next chapter of calm, curated discovery. ${SITE_CONFIG.name} is hiring kind, rigorous humans who care about typography, trust, and the long arc of community.`}
       actions={
-        <Button asChild>
-          <Link href="/contact">Apply Now</Link>
-        </Button>
+        <>
+          <Button className={luxuryBtnOutline} asChild>
+            <Link href="/community">Community pulse</Link>
+          </Button>
+          <Button className={luxuryBtnPrimary} asChild>
+            <Link href="/contact">Introduce yourself</Link>
+          </Button>
+        </>
       }
     >
-      <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
-        <div className="space-y-4">
-          {roles.map((role) => (
-            <Card key={role.title} className="border-border bg-card">
-              <CardContent className="p-6">
-                <div className="flex flex-wrap items-center gap-2">
-                  <Badge variant="secondary">{role.level}</Badge>
-                  <Badge variant="outline">{role.type}</Badge>
+      <div className="grid gap-12 lg:grid-cols-[1.15fr_0.85fr]">
+        <div>
+          <h2 className="font-serif text-2xl font-medium text-[#1a1615]">Open roles</h2>
+          <p className="mt-2 text-sm leading-relaxed text-[#4a403e]">
+            We review applications weekly. Share a short note, three work samples, and the craft moment you are most proud of—no
+            boilerplate cover letters required.
+          </p>
+          <div className="mt-8 space-y-5">
+            {roles.map((role) => (
+              <div
+                key={role.title}
+                className="rounded-[1.5rem] border border-[#ead9d3] bg-white/85 p-6 shadow-sm transition hover:border-[#d4b8b0]"
+              >
+                <div className="flex flex-wrap gap-2">
+                  <Badge className="rounded-full border-0 bg-[#fdf3f0] text-[10px] font-semibold uppercase tracking-[0.12em] text-[#8f4f5c]">
+                    {role.level}
+                  </Badge>
+                  <Badge variant="outline" className="rounded-full border-[#d4b8b0] text-[10px] uppercase tracking-[0.12em]">
+                    {role.type}
+                  </Badge>
                 </div>
-                <h2 className="mt-3 text-lg font-semibold text-foreground">{role.title}</h2>
-                <p className="mt-1 text-sm text-muted-foreground">{role.location}</p>
-                <Button variant="outline" className="mt-4" asChild>
-                  <Link href="/contact">View Role</Link>
+                <h3 className="mt-3 font-serif text-xl font-medium text-[#1a1615]">{role.title}</h3>
+                <p className="mt-1 text-xs uppercase tracking-[0.15em] text-[#8f6f72]">{role.location}</p>
+                <p className="mt-4 text-sm leading-relaxed text-[#4a403e]">{role.blurb}</p>
+                <Button className={`${luxuryBtnOutline} mt-5`} asChild>
+                  <Link href="/contact">Apply for this role</Link>
                 </Button>
-              </CardContent>
-            </Card>
-          ))}
+              </div>
+            ))}
+          </div>
         </div>
-        <Card className="border-border bg-card">
-          <CardContent className="p-6">
-            <h3 className="text-lg font-semibold text-foreground">Why {SITE_CONFIG.name}</h3>
-            <p className="mt-2 text-sm text-muted-foreground">
-              We are building a product that helps people discover and share the best knowledge on the web.
-            </p>
-            <div className="mt-4 space-y-2 text-sm text-muted-foreground">
-              {benefits.map((benefit) => (
-                <div key={benefit} className="rounded-md border border-border bg-secondary/40 px-3 py-2">
-                  {benefit}
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        <aside className="h-fit rounded-[1.75rem] border border-[#ead9d3] bg-gradient-to-b from-[#fffdfb] to-[#faf5f1] p-8 shadow-[0_16px_40px_rgba(74,52,56,0.05)]">
+          <h2 className="font-serif text-xl font-medium text-[#1a1615]">Why people stay</h2>
+          <p className="mt-3 text-sm leading-relaxed text-[#4a403e]">
+            We are building software that feels like a well‑appointed studio: daylight, linen textures, and enough silence to think.
+          </p>
+          <ul className="mt-8 space-y-5">
+            {benefits.map((b) => (
+              <li key={b.text} className="flex gap-3">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-[#b76e79] shadow-sm">
+                  <b.icon className="h-4 w-4" strokeWidth={1.5} />
+                </span>
+                <p className="text-sm leading-relaxed text-[#4a403e]">{b.text}</p>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-8 border-t border-[#ead9d3] pt-6 text-xs leading-relaxed text-[#8f6f72]">
+            {SITE_CONFIG.name} is an equal opportunity employer. We celebrate diversity and are committed to creating an inclusive
+            environment for all team members.
+          </p>
+        </aside>
       </div>
-    </PageShell>
+    </LuxuryMarketingShell>
   );
 }
