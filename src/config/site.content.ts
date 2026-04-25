@@ -3,7 +3,6 @@ import type { TaskKey } from '@/lib/site-config'
 export const siteContent = {
   navbar: {
     tagline: 'Curate · Save · Discover people',
-    locationLabel: 'Jaipur, India',
   },
   footer: {
     tagline: 'Bookmarks, collections, and profile-led discovery',
