@@ -15,6 +15,8 @@ import { cn } from "@/lib/utils";
 import { ArticleComments } from "@/components/tasks/article-comments";
 import { SchemaJsonLd } from "@/components/seo/schema-jsonld";
 import { RichContent, formatRichHtml } from "@/components/shared/rich-content";
+import { Card, CardContent } from "@/components/ui/card";
+import { ProfileHeaderCard } from "@/components/tasks/profile-header-card";
 
 type PostContent = {
   category?: string;
@@ -118,6 +120,7 @@ const buildMapEmbedUrl = (
 
   return null;
 };
+
 
 export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: string }) {
   const taskConfig = getTaskConfig(task);
@@ -280,28 +283,52 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
 
             {!isArticle ? (
               <>
-                {!isBookmark ? (
+                {/* Profile Header Card for SBM and Image tasks */}
+                {(isBookmark || task === "image") && (
+                  <ProfileHeaderCard
+                    post={post}
+                    content={content}
+                    category={category}
+                    location={location}
+                  />
+                )}
+
+                {/* Image Carousel - only for non-bookmark, non-image tasks */}
+                {!isBookmark && task !== "image" ? (
                   <div className={cn(isClassified ? "w-full" : "")}>
                     <TaskImageCarousel images={images} />
                   </div>
                 ) : null}
 
-                <div className={cn(isClassified ? "mx-auto w-full max-w-4xl" : "mt-6")}>
-                  <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-                    <Badge variant="secondary" className="inline-flex items-center gap-1">
-                      <Tag className="h-3.5 w-3.5" />
-                      {category}
-                    </Badge>
-                    {location && (
-                      <span className="inline-flex items-center gap-1">
-                        <MapPin className="h-4 w-4" />
-                        {location}
-                      </span>
-                    )}
+                {/* Default layout for classifieds and other non-bookmark/image tasks */}
+                {!isBookmark && task !== "image" && (
+                  <div className={cn(isClassified ? "mx-auto w-full max-w-4xl" : "mt-6")}>
+                    <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+                      <Badge variant="secondary" className="inline-flex items-center gap-1">
+                        <Tag className="h-3.5 w-3.5" />
+                        {category}
+                      </Badge>
+                      {location && (
+                        <span className="inline-flex items-center gap-1">
+                          <MapPin className="h-4 w-4" />
+                          {location}
+                        </span>
+                      )}
+                    </div>
+                    <h1 className="mt-4 text-3xl font-semibold text-foreground">{post.title}</h1>
+                    <RichContent html={descriptionHtml} className="mt-3 max-w-3xl" />
                   </div>
-                  <h1 className="mt-4 text-3xl font-semibold text-foreground">{post.title}</h1>
-                  <RichContent html={descriptionHtml} className="mt-3 max-w-3xl" />
-                </div>
+                )}
+
+                {/* Description card for SBM and Image tasks */}
+                {(isBookmark || task === "image") && descriptionHtml && (
+                  <Card className="mt-6 overflow-hidden border-border">
+                    <CardContent className="p-6">
+                      <h2 className="mb-4 text-lg font-semibold text-foreground">About</h2>
+                      <RichContent html={descriptionHtml} className="max-w-3xl" />
+                    </CardContent>
+                  </Card>
+                )}
               </>
             ) : null}
 

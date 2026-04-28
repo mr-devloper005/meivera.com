@@ -5,12 +5,16 @@ import { NavbarShell } from "@/components/shared/navbar-shell";
 import { ContentImage } from "@/components/shared/content-image";
 import { TaskPostCard } from "@/components/shared/task-post-card";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { SchemaJsonLd } from "@/components/seo/schema-jsonld";
 import { buildPostUrl } from "@/lib/task-data";
 import { buildPostMetadata, buildTaskMetadata } from "@/lib/seo";
 import { fetchTaskPostBySlug, fetchTaskPosts } from "@/lib/task-data";
 import { SITE_CONFIG } from "@/lib/site-config";
 import { siteContent } from "@/config/site.content";
+import { MapPin, Globe, ExternalLink, Tag } from "lucide-react";
+import { ShareButton } from "@/components/shared/share-button";
 
 export const revalidate = 3;
 
@@ -80,6 +84,8 @@ export default async function ProfileDetailPage({ params }: { params: Promise<{ 
     post.summary ||
     "Profile details will appear here once available.";
   const descriptionHtml = formatRichHtml(description);
+  const category = (content.category as string | undefined) || "Food";
+  const location = (content.location as string | undefined) || (content.address as string | undefined);
   const suggestedArticles = await fetchTaskPosts("article", 6);
   const baseUrl = SITE_CONFIG.baseUrl.replace(/\/$/, "");
   const breadcrumbData = {
@@ -112,45 +118,98 @@ export default async function ProfileDetailPage({ params }: { params: Promise<{ 
       <NavbarShell />
       <main className="mx-auto w-full max-w-[1400px] px-4 pb-16 pt-10 sm:px-6 lg:px-8">
         <SchemaJsonLd data={breadcrumbData} />
-        <section className="paper-panel rounded-2xl p-8 md:p-12">
-          <div className="grid gap-10 md:grid-cols-[minmax(0,220px)_1fr] md:items-start md:gap-12">
-            <div className="flex justify-center md:justify-start">
-              <div className="relative h-44 w-44 overflow-hidden rounded-full border-4 border-white bg-[var(--surface-muted)] shadow-[0_20px_50px_rgba(28,33,40,0.12)] ring-2 ring-[rgba(133,57,83,0.26)] sm:h-52 sm:w-52">
-                {logoUrl ? (
-                  <ContentImage src={logoUrl} alt={post.title} fill className="object-cover" sizes="208px" intrinsicWidth={208} intrinsicHeight={208} />
-                ) : (
-                  <div className="flex h-full w-full items-center justify-center text-4xl font-bold text-muted-foreground sm:text-5xl">
-                    {post.title.slice(0, 1).toUpperCase()}
+        <Card className="overflow-hidden border-border bg-gradient-to-br from-card to-muted/30 shadow-sm">
+          <CardContent className="p-6 md:p-8">
+            <div className="flex flex-col gap-6 md:flex-row md:items-start md:gap-8">
+              {/* Circular Logo/Image */}
+              <div className="flex-shrink-0">
+                <div className="relative h-28 w-28 overflow-hidden rounded-full border-4 border-background bg-muted shadow-lg ring-2 ring-border md:h-36 md:w-36">
+                  {logoUrl ? (
+                    <ContentImage
+                      src={logoUrl}
+                      alt={post.title}
+                      fill
+                      className="object-cover"
+                      sizes="144px"
+                      intrinsicWidth={144}
+                      intrinsicHeight={144}
+                    />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-primary/20 to-primary/5 text-3xl font-bold text-primary md:text-4xl">
+                      {post.title.slice(0, 1).toUpperCase()}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Content */}
+              <div className="flex-1 min-w-0">
+                {/* Title */}
+                <h1 className="text-2xl font-bold text-foreground md:text-3xl lg:text-4xl">
+                  {brandName}
+                </h1>
+
+                {/* Category */}
+                <div className="mt-2">
+                  <Badge variant="secondary" className="inline-flex items-center gap-1 text-sm">
+                    <Tag className="h-3.5 w-3.5" />
+                    {category}
+                  </Badge>
+                </div>
+
+                {/* Location */}
+                {location && (
+                  <div className="mt-3 flex items-center gap-2 text-muted-foreground">
+                    <MapPin className="h-4 w-4 flex-shrink-0" />
+                    <span className="text-sm">{location}</span>
                   </div>
                 )}
+
+                {/* Website Link */}
+                {website && (
+                  <div className="mt-3">
+                    <a
+                      href={website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary/80 hover:underline"
+                    >
+                      <Globe className="h-4 w-4" />
+                      {domain || website}
+                      <ExternalLink className="h-3 w-3" />
+                    </a>
+                  </div>
+                )}
+
+                {/* Action Buttons */}
+                <div className="mt-5 flex flex-wrap items-center gap-3">
+                  <ShareButton />
+                  {website && (
+                    <Button asChild size="sm" className="gap-2">
+                      <a href={website} target="_blank" rel="noopener noreferrer">
+                        <ExternalLink className="h-4 w-4" />
+                        Visit Site
+                      </a>
+                    </Button>
+                  )}
+                </div>
               </div>
             </div>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--sbm-green-dim)]">Public profile</p>
-              <h1 className="mt-2 text-3xl font-bold text-[var(--text-heading)] sm:text-4xl md:text-[2.5rem]">{brandName}</h1>
-              {domain ? (
-                <p className="mt-2 text-sm font-medium text-[var(--text-body)]">{domain}</p>
-              ) : null}
+          </CardContent>
+        </Card>
+
+        {/* About Section */}
+        {descriptionHtml && (
+          <Card className="mt-6 overflow-hidden border-border">
+            <CardContent className="p-6">
+              <h2 className="mb-4 text-lg font-semibold text-foreground">About</h2>
               <article
-                className="article-content prose prose-slate mt-6 max-w-2xl text-base leading-relaxed text-[var(--text-body)] prose-p:my-4 prose-a:text-[var(--sbm-blue-dim)] prose-a:underline prose-strong:font-semibold"
+                className="prose prose-slate max-w-2xl text-base leading-relaxed text-muted-foreground prose-p:my-4 prose-a:text-primary prose-a:underline prose-strong:font-semibold"
                 dangerouslySetInnerHTML={{ __html: descriptionHtml }}
               />
-              {website ? (
-                <div className="mt-8">
-                  <Button
-                    asChild
-                    size="lg"
-                    className="rounded-lg border-0 bg-[var(--sbm-blue)] px-8 text-base font-semibold text-white shadow-sm hover:bg-[var(--sbm-blue-dim)]"
-                  >
-                    <Link href={website} target="_blank" rel="noopener noreferrer">
-                      Visit Official Site
-                    </Link>
-                  </Button>
-                </div>
-              ) : null}
-            </div>
-          </div>
-        </section>
+            </CardContent>
+          </Card>
+        )}
 
         {suggestedArticles.length ? (
           <section className="mt-12">
