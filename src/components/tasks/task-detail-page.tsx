@@ -320,16 +320,7 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
                   </div>
                 )}
 
-                {/* Description card for SBM and Image tasks */}
-                {(isBookmark || task === "image") && descriptionHtml && (
-                  <Card className="mt-6 overflow-hidden border-border">
-                    <CardContent className="p-6">
-                      <h2 className="mb-4 text-lg font-semibold text-foreground">About</h2>
-                      <RichContent html={descriptionHtml} className="max-w-3xl" />
-                    </CardContent>
-                  </Card>
-                )}
-              </>
+                              </>
             ) : null}
 
             {isClassified ? (
@@ -522,15 +513,7 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
                   </Link>
                 </li>
               ) : null}
-              <li>
-                <Link
-                  href={`/search?q=${encodeURIComponent(category)}`}
-                  className="text-primary underline-offset-4 hover:underline"
-                >
-                  Search more in {category}
-                </Link>
-              </li>
-            </ul>
+                          </ul>
           </nav>
         </section>
       </main>

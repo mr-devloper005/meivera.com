@@ -25,90 +25,108 @@ interface ProfileHeaderCardProps {
   location?: string;
 }
 
+// Helper function to strip HTML tags and return plain text
+const stripHtml = (html: string): string => {
+  if (!html) return "";
+  return html
+    .replace(/<[^>]*>/g, "") // Remove HTML tags
+    .replace(/&nbsp;/g, " ") // Replace non-breaking spaces
+    .replace(/&amp;/g, "&") // Replace HTML entities
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .trim();
+};
+
 export function ProfileHeaderCard({ post, content, category, location }: ProfileHeaderCardProps) {
   const logoUrl = content.logo || (Array.isArray(content.images) && content.images[0]);
   const website = content.website;
   const domain = website ? website.replace(/^https?:\/\//, "").replace(/\/.*$/, "") : undefined;
 
   return (
-    <Card className="overflow-hidden border-border bg-gradient-to-br from-card to-muted/30 shadow-sm">
-      <CardContent className="p-6 md:p-8">
-        <div className="flex flex-col gap-6 md:flex-row md:items-start md:gap-8">
-          {/* Circular Logo/Image */}
-          <div className="flex-shrink-0">
-            <div className="relative h-28 w-28 overflow-hidden rounded-full border-4 border-background bg-muted shadow-lg ring-2 ring-border md:h-36 md:w-36">
-              {logoUrl ? (
-                <ContentImage
-                  src={logoUrl}
-                  alt={post.title}
-                  fill
-                  className="object-cover"
-                  sizes="144px"
-                  intrinsicWidth={144}
-                  intrinsicHeight={144}
-                />
-              ) : (
-                <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-primary/20 to-primary/5 text-3xl font-bold text-primary md:text-4xl">
-                  {post.title.slice(0, 1).toUpperCase()}
+    <div className="space-y-8">
+      {/* Clean Header Section */}
+      <div className="text-center space-y-4">
+        {/* Title */}
+        <h1 className="text-3xl font-bold text-foreground md:text-4xl">
+          {post.title}
+        </h1>
+
+        {/* Subtitle with company name */}
+        <div className="space-y-2">
+          {category && (
+            <div className="text-lg text-muted-foreground font-medium">
+              {category.toUpperCase()}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Description Section */}
+      {(content.description || post.summary) && (
+        <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
+          <CardContent className="p-6 md:p-8">
+            <div className="prose prose-gray max-w-none">
+              <p className="text-base leading-relaxed text-muted-foreground">
+                {stripHtml(content.description || post.summary || "")}
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Action Section */}
+      <div className="flex flex-col items-center gap-4">
+        {website && (
+          <Button asChild size="lg" className="gap-2 px-8">
+            <a href={website} target="_blank" rel="noopener noreferrer">
+              <Globe className="h-5 w-5" />
+              {category || "Visit Website"}
+              <ExternalLink className="h-4 w-4" />
+            </a>
+          </Button>
+        )}
+        
+        <div className="flex items-center gap-4 text-sm text-muted-foreground">
+          {location && (
+            <div className="flex items-center gap-2">
+              <MapPin className="h-4 w-4" />
+              <span>{location}</span>
+            </div>
+          )}
+          <ShareButton />
+        </div>
+      </div>
+
+      {/* Additional Details (Optional) */}
+      {(website || location) && (
+        <Card className="border-border/30 bg-muted/30">
+          <CardContent className="p-4">
+            <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground">
+              {website && (
+                <div className="flex items-center gap-2">
+                  <Globe className="h-4 w-4" />
+                  <a
+                    href={website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-foreground hover:underline transition-colors"
+                  >
+                    {domain || website}
+                  </a>
+                </div>
+              )}
+              {location && (
+                <div className="flex items-center gap-2">
+                  <MapPin className="h-4 w-4" />
+                  <span>{location}</span>
                 </div>
               )}
             </div>
-          </div>
-
-          {/* Content */}
-          <div className="flex-1 min-w-0">
-            {/* Title */}
-            <h1 className="text-2xl font-bold text-foreground md:text-3xl lg:text-4xl">
-              {post.title}
-            </h1>
-
-            {/* Category */}
-            <div className="mt-2">
-              <Badge variant="secondary" className="inline-flex items-center gap-1 text-sm">
-                <Tag className="h-3.5 w-3.5" />
-                {category}
-              </Badge>
-            </div>
-
-            {/* Location */}
-            {location && (
-              <div className="mt-3 flex items-center gap-2 text-muted-foreground">
-                <MapPin className="h-4 w-4 flex-shrink-0" />
-                <span className="text-sm">{location}</span>
-              </div>
-            )}
-
-            {/* Website Link */}
-            {website && (
-              <div className="mt-3">
-                <a
-                  href={website}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary/80 hover:underline"
-                >
-                  <Globe className="h-4 w-4" />
-                  {domain || website}
-                  <ExternalLink className="h-3 w-3" />
-                </a>
-              </div>
-            )}
-
-            {/* Action Buttons */}
-            <div className="mt-5 flex items-center gap-3">
-              <ShareButton />
-              {website && (
-                <Button asChild size="sm" className="gap-2">
-                  <a href={website} target="_blank" rel="noopener noreferrer">
-                    <ExternalLink className="h-4 w-4" />
-                    Visit Site
-                  </a>
-                </Button>
-              )}
-            </div>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
+          </CardContent>
+        </Card>
+      )}
+    </div>
   );
 }
