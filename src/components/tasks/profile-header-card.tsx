@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ContentImage } from "@/components/shared/content-image";
 import { ShareButton } from "@/components/shared/share-button";
+import { formatRichHtml } from "@/components/shared/rich-content";
 import type { SitePost } from "@/lib/site-connector";
 
 type PostContent = {
@@ -24,20 +25,6 @@ interface ProfileHeaderCardProps {
   category: string;
   location?: string;
 }
-
-// Helper function to strip HTML tags and return plain text
-const stripHtml = (html: string): string => {
-  if (!html) return "";
-  return html
-    .replace(/<[^>]*>/g, "") // Remove HTML tags
-    .replace(/&nbsp;/g, " ") // Replace non-breaking spaces
-    .replace(/&amp;/g, "&") // Replace HTML entities
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .trim();
-};
 
 export function ProfileHeaderCard({ post, content, category, location }: ProfileHeaderCardProps) {
   const logoUrl = content.logo || (Array.isArray(content.images) && content.images[0]);
@@ -67,11 +54,12 @@ export function ProfileHeaderCard({ post, content, category, location }: Profile
       {(content.description || post.summary) && (
         <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
           <CardContent className="p-6 md:p-8">
-            <div className="prose prose-gray max-w-none">
-              <p className="text-base leading-relaxed text-muted-foreground">
-                {stripHtml(content.description || post.summary || "")}
-              </p>
-            </div>
+            <div
+              className="prose prose-gray max-w-none text-base leading-relaxed text-muted-foreground [&_a]:text-red-500 [&_a]:underline [&_a]:hover:text-red-600"
+              dangerouslySetInnerHTML={{
+                __html: formatRichHtml(content.description || post.summary, ""),
+              }}
+            />
           </CardContent>
         </Card>
       )}
