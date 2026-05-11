@@ -47,8 +47,7 @@ export default function TermsPage() {
       title="Terms of service"
       description={`Rules for using ${SITE_CONFIG.name}, including acceptable use, content licensing, and limitations of liability.`}
     >
-      <p className="text-xs uppercase tracking-[0.2em] text-[#8f6f72]">Effective 13 April 2026</p>
-      <div className="mt-10 space-y-6">
+      <div className="mt-6 space-y-6">
         {sections.map((section) => (
           <section
             key={section.title}

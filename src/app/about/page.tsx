@@ -2,8 +2,6 @@ import Link from "next/link";
 import { LuxuryMarketingShell, luxuryBtnOutline, luxuryBtnPrimary } from "@/components/marketing/luxury-marketing-shell";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { mockTeamMembers } from "@/data/mock-data";
 import { SITE_CONFIG } from "@/lib/site-config";
 import { Sparkles, Leaf, Heart, Shield } from "lucide-react";
 
@@ -88,8 +86,7 @@ export default function AboutPage() {
           <ul className="mt-6 space-y-6">
             {milestones.map((m) => (
               <li key={m.year} className="border-l-2 border-[#c4a574]/50 pl-5">
-                <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#b76e79]">{m.year}</span>
-                <p className="mt-1 font-medium text-[#1a1615]">{m.title}</p>
+                <p className="font-medium text-[#1a1615]">{m.title}</p>
                 <p className="mt-2 text-sm leading-relaxed text-[#4a403e]">{m.copy}</p>
               </li>
             ))}
@@ -120,34 +117,6 @@ export default function AboutPage() {
         </div>
       </div>
 
-      <div className="mt-20">
-        <h2 className="font-serif text-3xl font-medium text-[#1a1615]">Faces behind the craft</h2>
-        <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-[#4a403e]">
-          A distributed studio of designers, engineers, and community stewards—united by the belief that software should feel as
-          considered as a handwritten note.
-        </p>
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
-          {mockTeamMembers.map((member) => (
-            <div
-              key={member.id}
-              className="rounded-[1.5rem] border border-[#ead9d3] bg-gradient-to-b from-white to-[#fdf9f6] p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-            >
-              <div className="flex items-center gap-3">
-                <Avatar className="h-14 w-14 border border-[#ead9d3]">
-                  <AvatarImage src={member.avatar} alt={member.name} />
-                  <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
-                </Avatar>
-                <div>
-                  <p className="font-medium text-[#1a1615]">{member.name}</p>
-                  <p className="text-xs text-[#8f6f72]">{member.role}</p>
-                </div>
-              </div>
-              <p className="mt-4 text-sm leading-relaxed text-[#4a403e]">{member.bio}</p>
-              <p className="mt-3 text-xs uppercase tracking-[0.12em] text-[#b76e79]/80">{member.location}</p>
-            </div>
-          ))}
-        </div>
-      </div>
     </LuxuryMarketingShell>
   );
 }

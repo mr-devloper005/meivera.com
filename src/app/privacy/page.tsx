@@ -43,8 +43,7 @@ export default function PrivacyPage() {
       title="Privacy policy"
       description={`How ${SITE_CONFIG.name} collects, uses, and safeguards personal information across our websites, applications, and APIs.`}
     >
-      <p className="text-xs uppercase tracking-[0.2em] text-[#8f6f72]">Effective 13 April 2026</p>
-      <div className="mt-10 space-y-6">
+      <div className="mt-6 space-y-6">
         {sections.map((section) => (
           <section
             key={section.title}
