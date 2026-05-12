@@ -1,12 +1,11 @@
 import Link from 'next/link'
-import { Github, Twitter, Linkedin, Search, FolderOpen, Compass, User } from 'lucide-react'
+import { Search, FolderOpen, Compass } from 'lucide-react'
 import { SITE_CONFIG } from '@/lib/site-config'
 import { siteContent } from '@/config/site.content'
 
 const discoverLinks = [
   { name: 'Explore bookmarks', href: '/sbm', icon: Compass },
   { name: 'Collections', href: '/sbm/collections', icon: FolderOpen },
-  { name: 'Profiles', href: '/profile', icon: User },
   { name: 'Search', href: '/search', icon: Search },
 ]
 
@@ -32,11 +31,6 @@ const footerLinks = {
   ],
 }
 
-const socialLinks = [
-  { name: 'Twitter', href: 'https://twitter.com', icon: Twitter },
-  { name: 'GitHub', href: 'https://github.com', icon: Github },
-  { name: 'LinkedIn', href: 'https://linkedin.com', icon: Linkedin },
-]
 
 export function Footer() {
   return (
@@ -62,20 +56,6 @@ export function Footer() {
               </div>
             </Link>
             <p className="mt-5 max-w-sm text-sm leading-7 text-[var(--text-body)]">{SITE_CONFIG.description}</p>
-            <div className="mt-6 flex gap-2.5">
-              {socialLinks.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="rounded-lg border border-[var(--border-app)] bg-white p-2.5 text-[var(--text-body)] transition hover:border-[rgba(133,57,83,0.35)] hover:text-[var(--sbm-blue-dim)]"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <item.icon className="h-4 w-4" />
-                  <span className="sr-only">{item.name}</span>
-                </Link>
-              ))}
-            </div>
           </div>
 
           <div>

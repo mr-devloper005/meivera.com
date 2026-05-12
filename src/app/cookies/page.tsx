@@ -36,8 +36,7 @@ export default function CookiesPage() {
       title="Cookie policy"
       description={`Transparent detail about the cookies and similar technologies we use across ${SITE_CONFIG.name} web and embedded experiences.`}
     >
-      <p className="text-xs uppercase tracking-[0.2em] text-[#8f6f72]">Effective 13 April 2026</p>
-      <p className="mt-4 text-sm leading-relaxed text-[#4a403e]">
+      <p className="mt-2 text-sm leading-relaxed text-[#4a403e]">
         For how we process personal data more broadly, see our{' '}
         <Link href="/privacy" className="font-semibold text-[#8f4f5c] underline-offset-4 hover:underline">
           Privacy Policy

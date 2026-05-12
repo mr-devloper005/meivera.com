@@ -36,7 +36,6 @@ export default function StatusPage() {
           </span>
           All systems operational
         </span>
-        <span className="text-[#2d5c45]/80">Last updated {new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
       </div>
 
       <div className="grid gap-5 md:grid-cols-2">
@@ -80,8 +79,6 @@ export default function StatusPage() {
             >
               <div className="flex flex-wrap items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8f6f72]">
                 <Radio className="h-3.5 w-3.5 text-[#b76e79]" />
-                {incident.date}
-                <span className="text-[#d4b8b0]">·</span>
                 {incident.window}
               </div>
               <p className="mt-2 font-medium text-[#1a1615]">{incident.title}</p>
