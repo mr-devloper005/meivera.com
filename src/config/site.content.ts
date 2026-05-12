@@ -20,14 +20,13 @@ export const siteContent = {
       href: '/sbm',
     },
     secondaryCta: {
-      label: 'Browse profiles',
-      href: '/profile',
+      label: 'Browse collections',
+      href: '/sbm/collections',
     },
     searchPlaceholder: 'Search bookmarks, profiles, collections, and more',
     focusLabel: 'Jump to',
     filterChips: [
       { label: 'Bookmarks', href: '/sbm' },
-      { label: 'Profiles', href: '/profile' },
       { label: 'Collections', href: '/sbm/collections' },
     ],
     featureCardBadge: 'From the feed',

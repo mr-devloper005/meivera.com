@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, ChevronDown, Search, Sparkles } from "lucide-react";
+import { ArrowRight, ChevronDown, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ContentImage } from "@/components/shared/content-image";
 import { SITE_CONFIG } from "@/lib/site-config";
@@ -39,12 +39,7 @@ export function HeroSection({ images }: { images: string[] }) {
 
         <div className="grid items-start gap-10 lg:grid-cols-[1.06fr_0.94fr] lg:gap-12">
           <div className="max-w-2xl lg:max-w-none">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(133,57,83,0.2)] bg-white px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--sbm-blue-dim)] shadow-sm">
-              <Sparkles className="h-4 w-4 text-[var(--sbm-blue)]" />
-              {siteContent.hero.badge}
-            </div>
-
-            <h1 className="mt-5 text-balance text-4xl font-black leading-[1.05] tracking-tight text-[var(--text-heading)] sm:text-5xl lg:text-[3.35rem]">
+            <h1 className="mt-2 text-balance text-4xl font-black leading-[1.05] tracking-tight text-[var(--text-heading)] sm:text-5xl lg:text-[3.35rem]">
               {siteContent.hero.title[0]}{" "}
               <span className="text-[var(--sbm-blue)]">{siteContent.hero.title[1]}</span>
             </h1>
@@ -96,26 +91,11 @@ export function HeroSection({ images }: { images: string[] }) {
               </form>
             </div>
 
-            <div className="mt-5 flex flex-wrap items-center gap-2">
-              {siteContent.hero.filterChips.map((chip) => (
-                <Link
-                  key={chip.href}
-                  href={chip.href}
-                  className="inline-flex items-center rounded-xl border border-[var(--border-app)] bg-white px-4 py-2 text-xs font-semibold uppercase tracking-wide text-[var(--text-body)] shadow-sm transition hover:border-[rgba(133,57,83,0.35)] hover:bg-[rgba(97,45,83,0.08)] hover:text-[var(--sbm-blue-dim)]"
-                >
-                  {chip.label}
-                </Link>
-              ))}
-            </div>
 
             <div className="mt-8 flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-[var(--border-app)] pt-6 text-sm text-[var(--text-body)]">
               <span className="font-semibold uppercase tracking-[0.16em] text-[var(--text-heading)]">{siteContent.hero.focusLabel}</span>
               <Link href="/sbm" className="font-medium hover:text-[var(--sbm-blue-dim)]">
                 Bookmarks
-              </Link>
-              <span className="text-muted-foreground">·</span>
-              <Link href="/profile" className="font-medium hover:text-[var(--sbm-blue-dim)]">
-                Profiles
               </Link>
               <span className="text-muted-foreground">·</span>
               <Link href="/sbm/collections" className="font-medium hover:text-[var(--sbm-blue-dim)]">

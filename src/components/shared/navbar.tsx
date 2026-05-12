@@ -4,7 +4,7 @@ import { useState } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Search, Menu, X, User, Home, Compass, FolderOpen } from 'lucide-react'
+import { Search, Menu, X, Home, Compass, FolderOpen } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/lib/auth-context'
 import { SITE_CONFIG } from '@/lib/site-config'
@@ -25,7 +25,6 @@ const primaryLinks = [
     icon: FolderOpen,
     match: (p: string) => p.startsWith('/sbm/collections'),
   },
-  { name: 'Profiles', href: '/profile', icon: User, match: (p: string) => p.startsWith('/profile') },
 ]
 
 export function Navbar() {
